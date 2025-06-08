@@ -1,0 +1,465 @@
+﻿body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa; /* Light grey page background */
+    color: #333;
+    line-height: 1.6;
+}
+
+header {
+    margin-bottom: 2rem; /* Space below the header/hero */
+}
+
+/* --- HERO AUTO-SCROLLING BANNER --- */
+.hero-section-container {
+    height: 500px;
+    width: 100%;
+    overflow: hidden; /* Crucial: Hides the other slides */
+    position: relative;
+}
+
+.hero-slider-track {
+    width: 400%; /* Total width for 4 slides (100% x 4) */
+    height: 100%;
+    display: flex;
+    /* Animation: name duration timing-function iteration-count */
+    animation: slideAnimation 10s ease-in-out infinite;
+}
+
+/* Pause animation when user hovers over the banner */
+.hero-section-container:hover .hero-slider-track {
+    animation-play-state: paused;
+}
+
+.hero-slide {
+    width: 25%; /* Each slide takes up 1/4 of the track's width */
+    height: 100%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+}
+
+    .hero-slide img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Cover the area without distortion */
+        z-index: 1;
+    }
+
+/* Content overlay for text readability */
+/*.hero-content {
+    position: relative;
+    z-index: 2;
+    background: rgba(0, 0, 0, 0.45);*/ /* Semi-transparent black background */
+    /*padding: 1.5rem 2rem;
+    border-radius: 8px;
+    max-width: 80%;
+}*/
+
+    .hero-content h1 {
+        font-size: 3rem;
+        font-weight: bold;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+        margin-bottom: 0.5rem;
+    }
+
+    .hero-content p {
+        font-size: 1.25rem;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+    }
+
+/* Keyframes to control the sliding animation */
+@keyframes slideAnimation {
+    0% {
+        transform: translateX(0%);
+    }
+    /* Start at Slide 1 */
+    20% {
+        transform: translateX(0%);
+    }
+    /* Hold Slide 1 */
+    25% {
+        transform: translateX(-25%);
+    }
+    /* Animate to Slide 2 */
+    45% {
+        transform: translateX(-25%);
+    }
+    /* Hold Slide 2 */
+    50% {
+        transform: translateX(-50%);
+    }
+    /* Animate to Slide 3 */
+    70% {
+        transform: translateX(-50%);
+    }
+    /* Hold Slide 3 */
+    75% {
+        transform: translateX(-75%);
+    }
+    /* Animate to Slide 4 */
+    95% {
+        transform: translateX(-75%);
+    }
+    /* Hold Slide 4 */
+    100% {
+        transform: translateX(0%);
+    }
+    /* Animate back to Slide 1 */
+}
+
+/* Section Titles (if you want them styled consistently) */
+.section-title {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0; /* Adjusted if used with flex alignment (e.g., sale badge) */
+}
+
+/* Flash Sales Badge */
+.sale-badge-container {
+    position: relative;
+}
+
+.sale-badge-text {
+    background-color: #dc3545; /* Bootstrap danger red */
+    color: white;
+    padding: 0.5em 1.5em;
+    font-size: 1.1em;
+    font-weight: bold;
+    clip-path: polygon(10% 0%, 100% 0%, 90% 50%, 100% 100%, 10% 100%, 0% 50%);
+    transform: rotate(3deg);
+}
+
+/* Horizontal Product Slider/Grid */
+.product-slider-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.product-grid-horizontal {
+    display: flex;
+    overflow-x: auto; /* Enables horizontal scrolling by mouse/trackpad */
+    scroll-behavior: smooth;
+    gap: 1rem;
+    padding-bottom: 1rem; /* Space for scrollbar if visible */
+    flex-grow: 1;
+    /* To hide scrollbar visually if arrows are preferred (optional) */
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+    .product-grid-horizontal::-webkit-scrollbar { /* Chrome, Safari, Opera */
+        display: none;
+    }
+
+.slider-arrow {
+    background-color: rgba(200, 200, 200, 0.7);
+    border: none;
+    color: #333;
+    font-size: 1.5rem;
+    padding: 0.5rem;
+    line-height: 1;
+    cursor: pointer;
+    z-index: 10;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+    flex-shrink: 0; /* Prevent arrows from shrinking */
+}
+
+    .slider-arrow:hover {
+        background-color: rgba(150, 150, 150, 0.9);
+    }
+
+    .slider-arrow.prev-arrow {
+        margin-right: 0.5rem;
+    }
+
+    .slider-arrow.next-arrow {
+        margin-left: 0.5rem;
+    }
+
+/* Product Card Styles */
+.product-card {
+    background-color: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    text-align: center;
+    padding: 1rem;
+    min-width: 240px;
+    max-width: 260px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    position: relative; /* CRITICAL: For positioning the absolute button */
+    overflow: hidden; /* CRITICAL: Hides the button when it's outside the card's bounds */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* To push product-info and button to bottom */
+    min-height: 400px;
+    /* MODIFIED: Adjusted padding to make space for the button that slides up */
+    padding-bottom: 3.5rem; /* This creates space at the bottom for the button to appear */
+}
+
+    .product-card:hover {
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+.product-image {
+    max-width: 100%;
+    height: 160px; /* Fixed height for consistent image display */
+    object-fit: contain; /* Scales the image to fit the container without cropping */
+    margin-bottom: 0.75rem;
+    border-radius: 4px;
+    background-color: #f8f8f8; /* Background for consistency if images don't fill space */
+}
+
+.product-info {
+    padding-top: 0.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Helps align price and button at bottom */
+    /* MODIFIED: Ensure no bottom padding that would conflict with absolute button */
+    padding-bottom: 0;
+}
+
+.product-name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #333;
+    /* MODIFIED: Reduced margin-bottom to pull price closer */
+    margin-bottom: 0.1rem;
+    min-height: 2.5rem;
+    height: 1rem; /* Adjusted for 4 lines of text - consider adjusting if short names have too much space */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    word-break: break-word;
+}
+
+.product-price {
+    font-size: 0.9rem;
+    color: #000; /* Ensured black color */
+    font-weight: bold;
+    /* MODIFIED: Reduced margins to bring it closer to product name and button */
+    margin-top: 0.1rem; /* Reduced margin above price */
+    margin-bottom: 0.5rem; /* Space below price, above button */
+    transition: margin-bottom 0.3s ease; /* Keep transition for price if content shifts */
+}
+
+    .product-price .original-price {
+        text-decoration: line-through;
+        color: #999;
+        font-size: 0.8em;
+        margin-right: 5px;
+    }
+
+    .product-price .discounted-price {
+        color: #dc3545;
+        font-weight: bold;
+    }
+
+/* --- ADD TO CART/VIEW DETAILS BUTTON HOVER STYLES --- */
+.add-to-cart-hover {
+    opacity: 0; /* Hidden by default */
+    visibility: hidden; /* Hidden by default */
+    transform: translateY(100%); /* Start below the card, moved down by its own height */
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease; /* Smooth animation */
+    /* Styling for the button */
+    background-color: #000; /* Black button */
+    color: white;
+    border: 1px solid #000; /* Black border, matching background */
+    position: absolute; /* Position relative to .product-card */
+    bottom: 0; /* Aligned to the very bottom of the card */
+    left: 0;
+    right: 0; /* Make it full width of the card */
+    border-radius: 0 0 8px 8px; /* Match card bottom radius, creating a seamless look */
+    padding: 0.75rem; /* Adjust padding as needed for button height */
+    margin: 0; /* Reset any default button margins */
+    width: 100%; /* Take full width of the product card */
+    box-sizing: border-box; /* Include padding in width calculation */
+    text-align: center; /* Center the "View Details" text */
+    text-decoration: none; /* Remove underline for links */
+    display: block; /* Make it a block element to take full width */
+    z-index: 10; /* Ensure it's above other card content if needed */
+}
+
+/* Define hover state for the button triggered by hovering on the product card */
+.product-card:hover .add-to-cart-hover {
+    opacity: 1; /* Fully visible on card hover */
+    visibility: visible; /* Makes the button interactable */
+    transform: translateY(0); /* Slides up to its original position */
+}
+/* --- END ADD TO CART/VIEW DETAILS BUTTON HOVER STYLES --- */
+
+
+/* --- PRODUCT DESCRIPTION CLAMPING FIX --- */
+.product-description-clamp {
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limits to 2 lines for longer descriptions */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.5em; /* Defines the height of each line */
+}
+/* --- END PRODUCT DESCRIPTION CLAMPING FIX --- */
+
+
+/* Shop Categories */
+.shop-categories-section .row {
+    justify-content: center; /* Ensure categories are centered */
+}
+
+.category-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.25rem 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    height: 100%; /* Make all category items same height if in a row */
+}
+
+    .category-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .category-item i {
+        color: #000; /* Changed icon color to black */
+    }
+
+    .category-item p {
+        margin-bottom: 0;
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: #333;
+        margin-top: 0.5rem;
+    }
+
+/* Features Section */
+.features-section {
+    background-color: #f8f9fa;
+    padding: 2rem 0;
+}
+
+    .features-section h3 {
+        font-size: 1.1em;
+        font-weight: 600;
+        color: #333333;
+    }
+
+    .features-section p {
+        font-size: 0.9em;
+        color: #666666;
+    }
+
+    .features-section i {
+        color: #000; /* Changed to black for consistency */
+    }
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .hero-section-container {
+        height: 300px;
+    }
+
+    .hero-content h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-content p {
+        font-size: 1.1rem;
+    }
+
+    .product-card {
+        min-width: 220px;
+        min-height: 380px;
+        padding-bottom: 3.5rem; /* Ensure consistent padding for button on hover */
+    }
+
+    .product-name {
+        height: 5.5rem;
+        -webkit-line-clamp: 4;
+    }
+
+    .slider-arrow {
+        font-size: 1.2rem;
+        padding: 0.4rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-section-container {
+        height: 250px;
+    }
+
+    .hero-content {
+        padding: 1rem;
+    }
+
+        .hero-content h1 {
+            font-size: 2rem;
+        }
+
+        .hero-content p {
+            font-size: 1rem;
+        }
+
+    .product-card {
+        min-width: 190px;
+        padding: 0.75rem;
+        min-height: 360px;
+        padding-bottom: 3rem; /* Adjusted for mobile to make space for button */
+    }
+
+    .product-name {
+        font-size: 0.9rem;
+        height: 5.2rem;
+        min-height: 2.2rem;
+        -webkit-line-clamp: 4;
+        margin-bottom: 0.05rem; /* Further reduce margin for mobile */
+    }
+
+    .product-price {
+        font-size: 0.85rem;
+        margin-top: 0.05rem; /* Further reduce margin for mobile */
+        margin-bottom: 0.4rem; /* Further reduce margin for mobile */
+    }
+
+    .add-to-cart-hover {
+        font-size: 0.9rem;
+        padding: 0.5rem;
+    }
+
+    .section-title {
+        font-size: 1.25rem;
+    }
+
+    .flash-sales-section .d-flex {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .sale-badge-text {
+        font-size: 1em;
+        padding: 0.4em 1em;
+    }
+
+    .category-item p {
+        font-size: 0.75rem;
+    }
+}

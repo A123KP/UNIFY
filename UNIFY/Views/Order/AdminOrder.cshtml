@@ -1,0 +1,104 @@
+﻿@model List<UNIFY.Models.Order>
+
+@{
+    ViewData["Title"] = "Admin Orders";
+}
+
+<h2>Admin Orders</h2>
+<div class="card">
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Order No</th>
+                        <th>Customer Name</th>
+                        <th>Total Amount</th>
+                        <th>Order Date</th>
+                        <th>Order Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var order in Model)
+                    {
+                        <tr>
+                            <td>@order.OrderId</td>
+                            <td>@order.User?.Username</td>
+                            <td>@order.TotalAmount?.ToString("C", new System.Globalization.CultureInfo("en-IN"))</td>
+                            <td>@order.OrderDate?.ToString("yyyy-MM-dd")</td>
+                            <td>
+                                <select class="form-control status-dropdown" data-order-id="@order.OrderId">
+                                    <option value="PENDING" selected="@(order.Status == OrderStatus.PENDING)">PENDING</option>
+                                    <option value="SHIPPED" selected="@(order.Status == OrderStatus.SHIPPED)">SHIPPED</option>
+                                    <option value="CANCELLED" selected="@(order.Status == OrderStatus.CANCELLED)">CANCELLED</option>
+                                    <option value="DELIVERED" selected="@(order.Status == OrderStatus.DELIVERED)">DELIVERED</option>
+                                </select>
+                            </td>
+                            <td>
+                                <button class="btn btn-success btn-sm save-status" data-order-id="@order.OrderId">Save</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<!-- Toast Container -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 9999;">
+    <div id="statusToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body" id="toastMessage">Status updated successfully!</div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function showToast(message, type){
+            const toastEl = $('#statusToast');
+            const toastBody = $('#toastMessage');
+
+            toastBody.text(message);
+            toastEl.removeClass('bg-success bg-danger bg-info').addClass(`bg-${type}`);
+            const toast = new bootstrap.Toast(toastEl[0]);
+            toast.show();
+        }
+
+
+        $(document).ready(function () {
+            $('.save-status').click(function () {
+                const orderId = $(this).data('order-id');
+                const newStatus = $(`select[data-order-id='${orderId}']`).val();
+
+                if (!confirm(`Are you sure you want to update Order #${orderId} to "${newStatus}"?`)) {
+                    return;
+                }
+
+                $.ajax({
+                    url: '@Url.Action("UpdateStatus", "Order")',
+                    type: 'POST',
+                    data: { orderId, status: newStatus },
+                    success: function (response) {
+                        if (response.success) {
+                            showToast("Status updated successfully!", "success");
+                            setTimeout(() => location.reload(), 1500);
+                        } else {
+                            showToast("Failed to update status.", "danger");
+                        }
+                    },
+                    error: function () {
+                        showToast("Error occurred while updating status.", "danger");
+                    }
+                });
+            });
+        });
+    </script>
+}

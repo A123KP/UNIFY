@@ -1,0 +1,149 @@
+﻿@model List<UNIFY.Models.Product>
+
+@{
+    ViewData["Title"] = "Search Results";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/css/home/styles.css" rel="stylesheet" />
+<link href="~/css/Search/search.css" rel="stylesheet" /> 
+
+
+<div class="container mt-4">
+    <h2 class="mb-4">Search Results for "@ViewData["SearchTerm"]"</h2>
+
+            @if (Model != null && Model.Any())
+            {
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3">
+            
+                        @foreach (var product in Model)
+                        {
+                <div class="col">
+                    <div class="card h-100 shadow-sm product-card-search">
+                                    @{
+                                        string imagePath = $"/images/ProductCatalog/Product{product.ProductId}.jpg";
+                                        string fallbackImagePath = "/images/placeholder.png";
+                                    }
+                        <a asp-controller="Product" asp-action="Details" asp-route-id="@product.ProductId" class="text-decoration-none">
+                            <img src="@imagePath" class="card-img-top product-image" alt="@product.Name"
+                                 onerror="this.onerror=null;this.src='@fallbackImagePath';">
+                        </a>
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title text-truncate product-name">
+                                <a asp-controller="Product" asp-action="Details" asp-route-id="@product.ProductId" class="text-dark text-decoration-none">@product.Name</a>
+                            </h5>
+                            <p class="card-text text-muted small product-description-clamp flex-grow-1">@product.Description</p>
+                            <p class="card-text mb-1">
+                                            @if (product.Category != null)
+                                            {
+                                    <small class="text-muted product-category">Category: @product.Category.Name</small>
+                                            }
+                                            else
+                                            {
+                                    <small class="text-muted product-category">Category: N/A</small>
+                                            }
+                            </p>
+                            <p class="card-text fw-bold product-price mb-2">Price: ₹@product.Price.ToString("N2")</p>
+                        </div>
+                        <div class="card-footer bg-white border-top-0 pt-0">
+                            <a asp-controller="Product" asp-action="Details" asp-route-id="@product.ProductId" class="btn btn-outline-dark btn-sm w-100 mb-2">View Details</a>
+                            <button type="button" class="btn btn-danger btn-sm w-100 search-add-to-cart-btn"
+                                    data-product-id="@product.ProductId"
+                                    data-product-name="@product.Name"
+                                    data-product-price="@product.Price"
+                                    data-product-image="@imagePath">
+                                Add to Cart <i class="bi bi-cart-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                        }
+        </div>
+            }
+            else
+            {
+        <p class="alert alert-info">No products found matching your search criteria.</p>
+            }
+    <div class="mt-4 text-center">
+        <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Back to Home</a>
+    </div>
+</div>
+
+        @section Scripts {
+    <script>
+        // Shared Cart Logic (ideally in a global script, but placed here as per constraints)
+        const CART_KEY_SHARED = "userCart"; // Must match Cart.cshtml
+        const MAX_QUANTITY_PER_ITEM_SHARED = 5; // Must match Cart.cshtml
+
+        function getClientCartShared() {
+            return JSON.parse(localStorage.getItem(CART_KEY_SHARED) || "[]");
+        }
+
+        function setClientCartShared(cart) {
+            localStorage.setItem(CART_KEY_SHARED, JSON.stringify(cart));
+            updateCartCountInHeaderShared();
+        }
+
+        function addProductToCartShared(productId, name, price, image) {
+            let cart = getClientCartShared();
+            const numProductId = parseInt(productId);
+            const floatPrice = parseFloat(price);
+
+            const existingItemIndex = cart.findIndex(item => parseInt(item.productId) === numProductId);
+
+            if (existingItemIndex > -1) {
+                if (cart[existingItemIndex].quantity < MAX_QUANTITY_PER_ITEM_SHARED) {
+                    cart[existingItemIndex].quantity += 1;
+                } else {
+                     showCartToast(`Max ${MAX_QUANTITY_PER_ITEM_SHARED} units for "${name}".`, 'warning');
+                    return;
+                }
+            } else {
+                cart.push({ productId: numProductId, name: name, price: floatPrice, quantity: 1, image: image });
+            }
+            setClientCartShared(cart);
+            showCartToast(`"${name}" added to cart!`);
+        }
+
+        function updateCartCountInHeaderShared() {
+            const cart = getClientCartShared();
+            let totalItems = 0;
+            cart.forEach(item => {
+                totalItems += item.quantity;
+            });
+            // Assuming your _Layout.cshtml has an element like <span id="cart-item-count-display">0</span>
+            $('#cart-item-count-display').text(totalItems);
+        }
+
+        function showCartToast(message, type = 'success') {
+            let toastElement = $('.cart-toast');
+            if (!toastElement.length) {
+                toastElement = $('<div class="cart-toast"></div>').appendTo('body');
+                 if (!$('style#cart-toast-style').length) { // Ensure style is added only once per page
+                     $('<style id="cart-toast-style">' +
+                        '.cart-toast { position: fixed; bottom: 20px; right: 20px; padding: 15px; border-radius: 5px; z-index: 1050; color: white; font-size: 1rem; box-shadow: 0 0 10px rgba(0,0,0,0.2); display: none; }' +
+                        '.cart-toast.success { background-color: #28a745; }' +
+                        '.cart-toast.warning { background-color: #ffc107; color: #333; }' +
+                      '</style>').appendTo('head');
+                }
+            }
+            toastElement.text(message).removeClass('success warning').addClass(type);
+            toastElement.stop(true, true).fadeIn(400).delay(2500).fadeOut(400);
+        }
+
+        $(document).ready(function () {
+            // Add to Cart for Search.cshtml
+            $('.search-add-to-cart-btn').on('click', function () {
+                const $button = $(this);
+                const productId = $button.data('product-id');
+                const productName = $button.data('product-name');
+                const productPrice = $button.data('product-price'); // Already a number
+                const productImage = $button.data('product-image');
+
+                addProductToCartShared(productId, productName, productPrice, productImage);
+            });
+
+            updateCartCountInHeaderShared(); // Initial cart count update
+        });
+    </script>
+}

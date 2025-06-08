@@ -1,0 +1,128 @@
+﻿@model UNIFY.Models.User
+@section Styles {
+    <link href="~/css/UPM/profile.css" rel="stylesheet" />
+}
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    ViewData["Title"] = "Profile";
+    var userId = ViewBag.UserId;
+    string firstName = "", lastName = "", address = "";
+
+    if (userId == 1)
+    {
+        firstName = "Asad";
+        lastName = "Pangarkar";
+        address = "Sector-12, Akurdi, Pimpri Chinchwad";
+    }
+    else if (userId == 6)
+    {
+        firstName = "Rathik";
+        lastName = "Shetty";
+        address = "UDUPI, Banglore";
+    }
+    else if (userId == 5)
+    {
+        firstName = "Asad";
+        lastName = "Mehta";
+        address = "Karapakkam, Chennai";
+    }
+}
+
+
+<div class="profile-container">
+    <div class="welcome-section">
+        <span class="welcome-text">Welcome! @firstName @lastName</span>
+    </div>
+
+    <div class="profile-content">
+        <h2 class="profile-title">
+            <i class="bi bi-person-circle me-2"></i>
+            Edit Your Profile
+        </h2>
+
+        <form method="post" asp-action="UpdateProfile" asp-controller="UPM">
+            @Html.AntiForgeryToken()
+
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <label class="form-label">
+                        <i class="bi bi-person me-1"></i>
+                        First Name
+                    </label> <!--used predefined details  -->
+                    <input type="text" class="form-control profile-input" value="@firstName" readonly>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">
+                        <i class="bi bi-person me-1"></i>
+                        Last Name
+                    </label>
+                    <input type="text" class="form-control profile-input" value="@lastName" readonly>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">
+                        <i class="bi bi-envelope me-1"></i>
+                        Email
+                    </label>
+                    <input type="email" name="Email" id="emailField" class="form-control profile-input editable-field" value="@ViewBag.Email" readonly> <!-- Email viewbag defined in controller -->
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">
+                        <i class="bi bi-geo-alt me-1"></i>
+                        Address
+                    </label>
+                    <input type="text" class="form-control profile-input" value="@address" readonly>
+                </div>
+            </div>
+
+            <div class="button-section">
+                <button type="button" id="editBtn" class="btn edit-btn">
+                    <i class="bi bi-pencil"></i>
+                    EDIT
+                </button>
+                <button type="submit" id="saveBtn" class="btn save-btn">
+                    <i class="bi bi-check-lg me-1"></i>
+                    Save Changes
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+@section Scripts {
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <script>
+            alert('@TempData["SuccessMessage"]');
+        </script>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <script>
+            alert('@TempData["ErrorMessage"]');
+        </script>
+    }
+}
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const editBtn = document.getElementById('editBtn');
+        const saveBtn = document.getElementById('saveBtn');
+        const emailField = document.getElementById('emailField');
+
+        editBtn.addEventListener('click', function() {
+            emailField.removeAttribute('readonly');
+            emailField.focus();
+            editBtn.style.display = 'none';
+            saveBtn.style.display = 'inline-block';
+        });
+
+
+    });
+</script>

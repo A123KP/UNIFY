@@ -1,0 +1,246 @@
+﻿@model UNIFY.Models.Order
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Secure Payment";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Payment/Style.css" asp-append-version="true" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+}
+
+<div class="container mt-5 mb-5">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li> @* Updated href to point to actual home if necessary, e.g., @Url.Action("Index", "Home") *@
+            Payment</li>
+        </ol>
+    </nav>
+
+    <h2 class="mb-4 text-center">Choose Your Payment Method</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-3">
+            <div class="nav flex-column nav-pills payment-nav" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link active" id="v-pills-card-tab" data-bs-toggle="pill" href="#v-pills-card" role="tab" aria-controls="v-pills-card" aria-selected="true">
+                    <i class="fas fa-credit-card me-2"></i>CARD
+                </a>
+                <a class="nav-link" id="v-pills-upi-tab" data-bs-toggle="pill" href="#v-pills-upi" role="tab" aria-controls="v-pills-upi" aria-selected="false">
+                    <i class="fas fa-mobile-alt me-2"></i>UPI
+                </a>
+                <a class="nav-link" id="v-pills-cod-tab" data-bs-toggle="pill" href="#v-pills-cod" role="tab" aria-controls="v-pills-cod" aria-selected="false">
+                    <i class="fas fa-hand-holding-usd me-2"></i>COD
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-8 col-lg-7">
+            <div class="tab-content" id="v-pills-tabContent">
+                <div class="tab-pane fade show active p-4" id="v-pills-card" role="tabpanel" aria-labelledby="v-pills-card-tab">
+                    <h4 class="mb-4">CREDIT / DEBIT CARD</h4>
+                    <form id="cardPaymentForm">
+                        <div class="form-group mb-3">
+                            <label for="cardNumber">Card Number</label>
+                            <input type="text" class="form-control" id="cardNumber" placeholder="xxxx xxxx xxxx xxxx" required>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-7 mb-3">
+                                <label for="expiryDate">Expiry Date</label>
+                                <input type="text" class="form-control" id="expiryDate" placeholder="MM/YY" required>
+                            </div>
+                            <div class="form-group col-md-5 mb-3">
+                                <label for="cvv">CVV</label>
+                                <input type="text" class="form-control" id="cvv" placeholder="xxx" required>
+                            </div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <label for="cardHolderName">Cardholder Name</label>
+                            <input type="text" class="form-control" id="cardHolderName" placeholder="Enter name as on card" required>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="displayCardAmount">Amount</label>
+                            <input type="text" class="form-control" id="displayCardAmount" value="₹@Model.TotalAmount?.ToString("N2")" readonly>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <button type="button" class="btn btn-outline-secondary cancel-button">Cancel</button>
+                            <button type="submit" class="btn btn-danger">Pay Now <i class="fas fa-arrow-right ms-2"></i></button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="tab-pane fade p-4" id="v-pills-upi" role="tabpanel" aria-labelledby="v-pills-upi-tab">
+                    <h4 class="mb-4">UPI PAYMENT</h4>
+                    <form id="upiPaymentForm">
+                        <div class="form-group mb-3">
+                            <label for="upiId">UPI ID</label>
+                            <input type="text" class="form-control" id="upiId" placeholder="yourname@bank" required>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label for="displayUpiAmount">Amount</label>
+                            <input type="text" class="form-control" id="displayUpiAmount" value="₹@Model.TotalAmount?.ToString("N2")" readonly>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <button type="button" class="btn btn-outline-secondary cancel-button">Cancel</button>
+                            <button type="submit" class="btn btn-danger">Pay via UPI <i class="fas fa-arrow-right ms-2"></i></button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="tab-pane fade p-4" id="v-pills-cod" role="tabpanel" aria-labelledby="v-pills-cod-tab">
+                    <h4 class="mb-3">CASH ON DELIVERY</h4>
+                    <p class="mb-2">Your order will be delivered to your registered address.</p>
+                    <p class="mb-4">Please keep the exact amount ready to pay to the delivery executive upon receiving your order.</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <button type="button" class="btn btn-outline-secondary cancel-button">Cancel</button>
+
+                        <button type="button" class="btn btn-danger" id="confirmCodButton">Proceed to Order <i class="fas fa-check-circle ms-2"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            function showMessage(message, type = 'info') {
+                console.log(`[${type.toUpperCase()}] ${message}`);
+                // For a better user experience, consider replacing console.log
+                // with a user-facing notification system (e.g., toastr.js, Bootstrap toasts, or a custom modal).
+                // Example: alert(message); // Simple alert for basic feedback
+            }
+
+            // Renamed 'method' parameter to 'actionOrMethod' for clarity, especially when it's 'cancelled'.
+            function processPayment(actionOrMethod) {
+                if (!actionOrMethod) {
+                    showMessage("Payment action or method is missing.", 'danger');
+                    return;
+                }
+
+                const model = {
+                    PaymentMethod: actionOrMethod // This will be 'card', 'upi', 'cod', or 'cancelled'
+                };
+
+                $.ajax({
+                    url: '@Url.Action("ProcessPayment", "Payment")', // Ensure "Payment" is your controller name
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(model),
+                    success: function (response) {
+                        if (response.success) {
+                            // Use 'info' log type for cancellations, 'success' for actual payment attempts
+                            showMessage(response.message, actionOrMethod === 'cancelled' ? 'info' : 'success');
+                            if (response.redirectUrl) {
+                                window.location.href = response.redirectUrl;
+                            }
+                        } else {
+                            // Server responded with success:false
+                            showMessage('Operation failed: ' + response.message, 'danger');
+                        }
+                    },
+                    error: function (xhr) {
+                        // AJAX call itself failed (network issue, server error 500, etc.)
+                        console.error("AJAX Error:", xhr.status, xhr.statusText, xhr.responseText);
+                        showMessage("Error processing payment: " + (xhr.responseJSON && xhr.responseJSON.message ? xhr.responseJSON.message : xhr.statusText), 'danger');
+                    }
+                });
+            }
+
+            $('#cardPaymentForm').submit(function (e) {
+                e.preventDefault();
+                processPayment('card');
+            });
+
+            $('#upiPaymentForm').submit(function (e) {
+                e.preventDefault();
+                processPayment('upi');
+            });
+
+            $('.cancel-button').on('click', function(e) {
+                e.preventDefault();
+                processPayment('cancelled');
+            });
+
+
+            $('#confirmCodButton').click(function () {
+                processPayment('cod');
+            });
+
+            // --- START: Added/Modified for Cancellation Logic ---
+            function handleCancellation(e, elementType) {
+                e.preventDefault(); // Prevent default link navigation or button action
+
+                let confirmMessage = "Are you sure you want to cancel the payment? This will mark the payment as failed.";
+                if (elementType === 'home') {
+                    confirmMessage = "Are you sure you want to leave and cancel the payment? This will mark the payment as failed.";
+                }
+
+                if (confirm(confirmMessage)) {
+                    processPayment('cancelled'); // Send "cancelled" as the method
+                }
+                // If user clicks "Cancel" on the confirm dialog, nothing happens, they stay on the page.
+            }
+
+            // Target all "Cancel" buttons within the payment method tabs.
+            // These are <a> tags styled as buttons with asp-controller="Cart" and asp-action="Cart".
+            $('.tab-pane .btn-outline-secondary[asp-controller="Cart"]').each(function() {
+                $(this).on('click', function(e) {
+                    handleCancellation(e, 'cancelButton'); // Pass a type for context if needed
+                });
+            });
+
+            // Target the "Home" link in the breadcrumb.
+            // Note: The href="#" for Home should ideally point to the actual home URL.
+            // If it's always the first link, this selector is okay.
+            // For more robustness, give the Home link an ID if possible, or a more specific class.
+            $('.breadcrumb-item a').each(function() {
+                // Check if the link's text is "Home" or if it has a specific identifier.
+                // Using text() is okay but can be fragile if text changes or for localization.
+                // The href="#" is also a bit generic.
+                if ($(this).text().trim().toLowerCase() === 'home' && $(this).attr('href') === '#') { // Example to be more specific
+                    $(this).on('click', function(e) {
+                        handleCancellation(e, 'home');
+                    });
+                }
+            });
+            // --- END: Added/Modified for Cancellation Logic ---
+
+            $('#cardNumber').on('input', function (e) {
+                // Allow only digits, format with spaces every 4 digits
+                let value = e.target.value.replace(/\D/g, ''); // Remove non-digits
+                value = value.replace(/(.{4})/g, '$1 ').trim(); // Add space every 4 digits
+                e.target.value = value.substring(0, 19); // Limit length (e.g., 16 digits + 3 spaces)
+            });
+
+            $('#expiryDate').on('input', function (e) {
+                let value = e.target.value.replace(/\D/g, ''); // Remove non-digits
+                if (value.length > 2) {
+                    // Insert slash after MM
+                    value = value.substring(0, 2) + '/' + value.substring(2, 4);
+                }
+                e.target.value = value; // Max MM/YY is 5 chars
+            });
+
+            // Added CVV input formatter for consistency
+            $('#cvv').on('input', function (e) {
+                let value = e.target.value.replace(/\D/g, ''); // Remove non-digits
+                e.target.value = value.substring(0, 4); // Limit CVV length (typically 3 or 4 digits)
+            });
+
+            var triggerTabList = [].slice.call(document.querySelectorAll('#v-pills-tab a'));
+            triggerTabList.forEach(function (triggerEl) {
+                var tabTrigger = new bootstrap.Tab(triggerEl);
+                triggerEl.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    tabTrigger.show();
+                });
+            });
+
+        });
+    </script>
+}

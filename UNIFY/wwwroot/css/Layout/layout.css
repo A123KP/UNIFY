@@ -1,0 +1,332 @@
+﻿/* Combined Styles: Prioritizing Original User Aesthetics */
+
+/* --- General Body & HTML Styling (from original Layout.css) --- */
+html, body {
+    height: 100%;
+    font-family: Inter, sans-serif; /* Retained for modern font, can be changed if original specified other */
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    /* background-color: #f8f9fa; */ /* Original had no body background-color, so removing my addition */
+}
+
+/* --- Navbar Base (from original Layout.css) --- */
+/* Rules for .navbar, .navbar.bg-white, .navbar.border-bottom from original */
+.navbar,
+.navbar.bg-white,
+.navbar.border-bottom {
+    background: #fff !important; /* Original: #fff, border: none, box-shadow: none */
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Navbar Brand (UNIFY) (from original Layout.css) - UPDATED FOR CONSISTENT SIZE & NO WRAP/OVERLAP */
+.navbar-brand {
+    display: inline-flex; /* Ensures consistent alignment of icon and text */
+    align-items: center; /* Vertically aligns icon and text */
+    color: #111 !important;
+    font-weight: 700;
+    font-size: 1.5rem; /* Original size - THIS IS THE TARGET MEDIUM SIZE */
+    letter-spacing: 1px;
+    text-decoration: none !important;
+    cursor: pointer;
+    line-height: 1; /* Helps prevent inconsistent spacing around the brand */
+    white-space: nowrap; /* Prevents "UNIFY" TEXT FROM WRAPPING */
+    flex-shrink: 0; /* *** ADDED TO PREVENT THE BRAND ITSELF FROM SHRINKING AND POTENTIALLY CAUSING OVERLAP *** */
+}
+
+    .navbar-brand i.bi { /* Targeting Bootstrap icons specifically within the brand */
+        font-size: 0.9em; /* Icon size relative to brand's font-size (e.g., 1.5rem * 0.9 = 1.35rem). Ensures proportional scaling. */
+        line-height: 1; /* Match parent's line-height for consistency */
+    }
+
+
+/* --- Navigation Links General Appearance (from original Layout.css) --- */
+.navbar-nav .nav-link {
+    color: #111 !important;
+    font-weight: 400;
+    font-size: 1.1rem; /* Original size */
+    margin-left: 1.5rem; /* Original margin */
+    margin-right: 1.5rem; /* Original margin */
+    text-decoration: none !important;
+    transition: color 0.2s;
+    background: none !important;
+    box-shadow: none !important;
+    white-space: nowrap; /* From layout fix: Prevents text wrapping on desktop */
+    padding-top: 0.5rem; /* Retaining some vertical padding for structure */
+    padding-bottom: 0.5rem;
+    line-height: 1.5;
+}
+
+    /* Nav Link Hover/Focus State (from original Layout.css) */
+    .navbar-nav .nav-link:hover,
+    .navbar-nav .nav-link:focus {
+        color: #111 !important;
+        text-decoration: underline;
+        background: none;
+    }
+
+    /* Active Nav Link Styling (from original Layout.css) */
+    .navbar-nav .nav-link.active,
+    .navbar-nav .nav-link.fw-semibold {
+        font-weight: 600 !important;
+        text-decoration: underline !important;
+        color: #111 !important;
+    }
+
+/* --- Navbar Toggler (Visuals from Bootstrap, structure from my improvements) --- */
+.navbar-light .navbar-toggler {
+    border-color: rgba(0,0,0,.1); /* Subtle border for toggler */
+}
+
+.navbar-light .navbar-toggler-icon {
+    /* Default Bootstrap toggler icon is usually fine, can be customized if needed */
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(0, 0, 0, 0.7)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* --- Search Bar Styling (from original Navbar.css) --- */
+.search-container { /* Container for input and button */
+    display: flex;
+    align-items: center;
+}
+
+.search-input {
+    padding: 6px 12px; /* Original padding */
+    border: 1px solid #ccc; /* Original border */
+    border-radius: 4px 0 0 4px; /* Original border-radius */
+    outline: none;
+    font-size: 0.9rem; /* Consistent font sizing */
+}
+
+    .search-input::placeholder {
+        color: #6c757d; /* Standard placeholder color */
+        opacity: 0.8;
+    }
+
+.search-btn { /* Search button itself */
+    padding: 6px 10px; /* Original padding */
+    background-color: #eee; /* Original background */
+    border: 1px solid #ccc; /* Original border */
+    border-left: none;
+    border-radius: 0 4px 4px 0; /* Original border-radius */
+    cursor: pointer;
+    display: flex; /* To center icon */
+    align-items: center;
+    justify-content: center;
+}
+
+.search-icon { /* SVG icon inside search button */
+    width: 16px; /* Original HTML had 16px */
+    height: 16px; /* Original HTML had 16px */
+    stroke: #333; /* Giving the SVG a color, adjust as needed */
+    stroke-width: 2;
+}
+
+/* --- Cart Icon Styling --- */
+a.cart-container { /* The <a> tag */
+    position: relative; /* For badge positioning */
+    cursor: pointer;
+    margin-left: 10px; /* Original margin */
+    display: inline-flex; /* To align icon and badge */
+    align-items: center;
+    color: #333; /* Default icon color from original .cart-icon */
+    text-decoration: none;
+}
+
+    a.cart-container .bi-cart3 { /* Targeting Bootstrap icon specifically */
+        font-size: 28px; /* Applied from original .cart-icon width/height, Bootstrap icons use font-size */
+    }
+
+.cart-badge { /* Optional: Badge for cart item count (from original Navbar.css) */
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: #e74c3c; /* Original color */
+    color: white; /* Original color */
+    border-radius: 50%;
+    width: 18px; /* Original size */
+    height: 18px; /* Original size */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px; /* Original size */
+    font-weight: bold;
+    line-height: 1; /* For better vertical centering of number */
+}
+
+/* --- Profile Button and Dropdown Styling (from original Navbar.css) --- */
+.profile-wrapper .profile-btn { /* The button that triggers the dropdown */
+    width: 40px; /* Original size */
+    height: 40px; /* Original size */
+    border-radius: 50%;
+    background-color: #dc3545; /* Original color */
+    color: white; /* Original color */
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px; /* Original size (affects icon size) */
+    margin-left: 16px; /* Original margin */
+}
+
+    .profile-wrapper .profile-btn:focus {
+        box-shadow: none;
+        background-color: #dc3545; /* Original color */
+    }
+
+.profile-wrapper .profile-dropdown.dropdown-menu { /* The dropdown menu itself */
+    background-color: #4a4a4a !important; /* Original color */
+    border: none;
+    border-radius: 8px; /* Original radius */
+    padding: 8px 0; /* Original padding */
+    min-width: 200px; /* Original min-width */
+    margin-top: 8px; /* Original margin */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Original shadow */
+}
+
+.profile-wrapper .profile-dropdown .dropdown-item {
+    color: white !important; /* Original color */
+    padding: 12px 16px; /* Original padding */
+    display: flex;
+    align-items: center;
+    font-size: 14px; /* Original font-size */
+    border: none; /* Original: no border */
+    transition: background-color 0.15s ease, color 0.15s ease; /* Added for smoother hover */
+}
+
+    .profile-wrapper .profile-dropdown .dropdown-item:hover,
+    .profile-wrapper .profile-dropdown .dropdown-item:focus {
+        background-color: #5a5a5a; /* Original hover color */
+        color: white; /* Original hover text color */
+    }
+
+    .profile-wrapper .profile-dropdown .dropdown-item i { /* Icons within dropdown items */
+        margin-right: 12px; /* Original margin */
+        font-size: 16px; /* Original icon size */
+        width: 20px; /* Original width for alignment */
+        text-align: center;
+    }
+
+/* --- NAVBAR COLLISION FIXES & ALIGNMENT (Structural, from my improvements) --- */
+@media (min-width: 992px) { /* lg breakpoint for navbar-expand-lg (desktop view) */
+    #navbarNav.navbar-collapse {
+        align-items: center; /* Vertically align items in the collapsed navbar */
+        display: flex !important; /* Ensure it's a flex container */
+    }
+    /* Target the actions div (search, cart, profile wrapper) */
+    #navbarNav > div.d-flex.align-items-center {
+        margin-left: auto !important; /* CRITICAL: Push this group to the far right */
+        flex-shrink: 0; /* Prevent this group from shrinking */
+    }
+    /* Ensure navbar-nav also doesn't excessively shrink, allowing mx-auto to work */
+    .navbar-nav {
+        flex-shrink: 1; /* Default, but can be adjusted if needed */
+    }
+}
+
+/* Adjustments for when the navbar is collapsed (mobile view) */
+@media (max-width: 991.98px) {
+    .navbar-brand {
+        /* On mobile, ensure brand doesn't take up too much space if other items need to be beside it before full collapse.
+           Usually, brand is on its own line or near toggler, so this is fine. */
+    }
+
+    .navbar-nav {
+        /* Styles for centered text on mobile */
+        width: 100%;
+        text-align: center;
+    }
+
+        .navbar-nav .nav-link {
+            white-space: normal; /* Allow text to wrap on mobile */
+            margin-left: auto;
+            margin-right: auto;
+            display: block; /* Make links block for easier tapping and centering */
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+        }
+    /* Actions div on mobile */
+    #navbarNav > div.d-flex.align-items-center {
+        margin-left: 0 !important; /* Reset desktop margin */
+        margin-top: 1rem;
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .search-container {
+        width: 90%;
+        max-width: 350px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 0.75rem;
+    }
+
+    .profile-wrapper, a.cart-container {
+        margin-top: 0.5rem;
+    }
+}
+
+/* --- Footer Styling (from original Layout.css) --- */
+.footer-custom {
+    margin-top: auto;
+    background: #111 !important; /* Original color */
+    color: #fff; /* Original color */
+    padding-top: 2rem;
+    padding-bottom: 1.5rem;
+}
+
+    .footer-custom h5, .footer-custom h6 {
+        color: #fff;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+
+    .footer-custom p {
+        font-size: 0.9rem;
+        margin-bottom: 0.75rem;
+        line-height: 1.6;
+    }
+
+    .footer-custom a {
+        color: #bbb;
+        text-decoration: none;
+        transition: color 0.2s ease-in-out;
+    }
+
+        .footer-custom a:hover {
+            color: #fff !important;
+            text-decoration: underline;
+        }
+
+.footer-social-icons a {
+    font-size: 1.3rem; /* Original size */
+    margin-right: 0.75rem;
+    transition: color 0.2s;
+    color: #bbb;
+}
+
+    .footer-social-icons a:last-child {
+        margin-right: 0;
+    }
+
+    .footer-social-icons a:hover {
+        color: #e74c3c !important; /* Original hover color */
+    }
+
+.footer-custom .text-center.small { /* Copyright text */
+    padding-top: 1.5rem;
+    border-top: 1px solid #333;
+    color: #888;
+    font-size: 0.875rem;
+}
+
+/* --- Misc Nav Icons (from original Layout.css, if used outside primary nav) --- */
+.nav-icons a { /* If this class is used elsewhere */
+    color: #343a40; /* Original color */
+    font-size: 1.3rem; /* Original size */
+    margin-left: 15px; /* Original margin */
+}

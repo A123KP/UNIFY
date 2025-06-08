@@ -1,0 +1,226 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Shopping Cart";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Cart/Cart.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+}
+
+<div class="cart-page-container">
+    <div class="breadcrumb-container">
+        <span><a asp-controller="Home" asp-action="Index">Home</a></span> / <span>Cart</span>
+    </div>
+
+    <div class="cart-content-wrapper">
+        <div class="cart-items-container">
+            <table class="cart-table">
+                <thead>
+                    <tr>
+                        <th class="th-product">Product</th>
+                        <th class="th-price">Price</th>
+                        <th class="th-quantity">Quantity</th>
+                        <th class="th-subtotal">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody id="cartTableBody">
+                </tbody>
+            </table>
+
+            <div class="cart-page-actions">
+                <a asp-controller="Home" asp-action="Index" class="button return-shop-btn">Return To Shop</a>
+                <button class="button clear-cart-btn" onclick="clearClientCart()">Clear Cart</button>
+            </div>
+        </div>
+
+        <div class="cart-summary-container">
+            <h3>Cart Total</h3>
+            <div class="summary-row">
+                <span>Subtotal:</span>
+                <span class="summary-value subtotal-overall">₹0.00</span>
+            </div>
+            <div class="summary-ship">
+                <span>Shipping:</span>
+                <span class="summary-value">Free</span>
+            </div>
+            <div class="total-row">
+                <span>Total:</span>
+                <span class="summary-value total-overall">₹0.00</span>
+            </div>
+            <button class="button checkout-btn" id="proceedToCheckoutBtn">Proceed to checkout</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        const CART_KEY = "userCart";
+        const MAX_QUANTITY_PER_ITEM = 5; // Define the maximum quantity limit
+
+        function getClientCart() {
+            return JSON.parse(localStorage.getItem(CART_KEY) || "[]");
+        }
+
+        function setClientCart(cart) {
+            localStorage.setItem(CART_KEY, JSON.stringify(cart));
+            renderCartTable();
+            updateOverallCartTotals();
+        }
+
+        function renderCartTable() {
+            const cart = getClientCart();
+            const tbody = $('#cartTableBody');
+            tbody.empty(); // Clear existing rows
+
+            if (cart.length === 0) {
+                tbody.html('<tr><td colspan="4" style="text-align:center; padding: 20px;">Your cart is empty.</td></tr>');
+                updateOverallCartTotals(); // Ensure totals are zeroed out
+                return;
+            }
+
+            cart.forEach(item => {
+                const itemSubtotal = item.price * item.quantity;
+                const rowHtml = `
+                    <tr data-product-id="${item.productId}" data-item-price="${item.price}">
+                        <td class="td-product" data-label="Product">
+                            <div class="product-info">
+                                <a href="#" class="remove-item-icon" title="Remove item" onclick="removeItemFromCart(${item.productId}, event)">x</a>
+                                <span class="product-name">${item.name}</span>
+                            </div>
+                        </td>
+                        <td class="td-price" data-label="Price">₹${item.price.toLocaleString('en-IN')}</td>
+                        <td class="td-quantity" data-label="Quantity">
+                            <div class="quantity-spinner-wrapper">
+                                <input type="text" class="quantity-input" value="${item.quantity.toString().padStart(2, '0')}" min="1" readonly data-product-id="${item.productId}">
+                                <div class="spinner-buttons">
+                                    <button type="button" class="spinner-button quantity-plus" title="Increase quantity" data-product-id="${item.productId}">
+                                        <i class="bi bi-chevron-up"></i>
+                                    </button>
+                                    <button type="button" class="spinner-button quantity-minus" title="Decrease quantity" data-product-id="${item.productId}">
+                                        <i class="bi bi-chevron-down"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="td-subtotal" data-label="Subtotal">₹${itemSubtotal.toLocaleString('en-IN')}</td>
+                    </tr>
+                `;
+                tbody.append(rowHtml);
+            });
+            attachQuantityButtonListeners();
+            updateOverallCartTotals();
+        }
+
+        function attachQuantityButtonListeners() {
+            $('.quantity-plus').off('click').on('click', function () {
+                const productId = $(this).data('product-id');
+                updateItemQuantity(productId, 1);
+            });
+
+            $('.quantity-minus').off('click').on('click', function () {
+                const productId = $(this).data('product-id');
+                updateItemQuantity(productId, -1);
+            });
+        }
+
+        function updateItemQuantity(productId, change) {
+            let cart = getClientCart();
+            const itemIndex = cart.findIndex(p => p.productId === productId);
+
+            if (itemIndex > -1) {
+                let currentQuantity = cart[itemIndex].quantity;
+                let newQuantity = currentQuantity + change;
+
+                if (change > 0 && currentQuantity >= MAX_QUANTITY_PER_ITEM) {
+                    alert(`You can only order a maximum of ${MAX_QUANTITY_PER_ITEM} units for this item.`);
+                    return; // Do not update if trying to increase beyond max
+                }
+
+                if (newQuantity > MAX_QUANTITY_PER_ITEM) {
+                    newQuantity = MAX_QUANTITY_PER_ITEM;
+                     alert(`Quantity for this item has been set to the maximum of ${MAX_QUANTITY_PER_ITEM} units.`);
+                }
+
+
+                if (newQuantity <= 0) {
+                    cart.splice(itemIndex, 1); // Remove item if quantity is 0 or less
+                } else {
+                    cart[itemIndex].quantity = newQuantity;
+                }
+                setClientCart(cart); // This will re-render and update totals
+            }
+        }
+
+        function removeItemFromCart(productId, event) {
+            event.preventDefault();
+            let cart = getClientCart();
+            cart = cart.filter(item => item.productId !== productId);
+            setClientCart(cart);
+        }
+
+        function clearClientCart() {
+            if(confirm("Are you sure you want to remove all items from your cart?")) {
+                localStorage.removeItem(CART_KEY);
+                setClientCart([]); // Effectively re-renders an empty cart
+            }
+        }
+
+        function updateOverallCartTotals() {
+            let overallSubtotal = 0;
+            const cart = getClientCart();
+
+            cart.forEach(item => {
+                overallSubtotal += (item.price * item.quantity);
+            });
+
+            const overallTotal = overallSubtotal; // Assuming shipping is free or handled later
+            $('.subtotal-overall').text(`₹${overallSubtotal.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`);
+            $('.total-overall').text(`₹${overallTotal.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`);
+        }
+
+        $(document).ready(function () {
+            renderCartTable(); // Initial render of the cart from localStorage
+
+            $('#proceedToCheckoutBtn').on('click', function () {
+                const cartItems = getClientCart();
+                if (cartItems.length === 0) {
+                    alert("Your cart is empty. Please add products to your cart before proceeding to checkout.");
+                    return;
+                }
+
+                const checkoutData = cartItems.map(item => ({
+                    productId: item.productId,
+                    quantity: item.quantity
+                }));
+
+                console.log("Sending to checkout:", checkoutData);
+
+                $.ajax({
+                    url: '@Url.Action("ProcessCheckout", "Cart")',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(checkoutData),
+                    headers: {
+                        "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            alert(response.message || "Cart saved successfully! Proceeding to next step.");
+                            // Optionally clear localStorage cart after successful save
+                            // localStorage.removeItem(CART_KEY);
+                            window.location.href = response.redirectUrl || '@Url.Action("Payment", "Payment")';
+                        } else {
+                            alert("Error: " + (response.message || "Could not process checkout."));
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Checkout error:", xhr.responseText);
+                        alert("An error occurred while proceeding to checkout. Please try again. Details: " + xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+}

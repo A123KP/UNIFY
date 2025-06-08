@@ -1,0 +1,368 @@
+﻿/* General Body and Container Styles */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8f9fa; /* Light gray background */
+    color: #212529; /* Default text color - nearly black */
+}
+
+.main-content {
+    padding: 30px 15px;
+    margin-top: 20px;
+}
+
+.card {
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Table Specific Styles */
+.table-responsive {
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.table {
+    table-layout: fixed; /* Crucial for uniform column widths */
+    width: 100%; /* Ensure table takes full width of its container */
+}
+
+    .table th, .table td {
+        vertical-align: middle;
+        text-align: center; /* Center content in table cells */
+        color: #212529;
+    }
+
+    .table thead th {
+        background-color: #e9ecef;
+        border-bottom-width: 2px;
+        color: #212529;
+    }
+
+    .table th:nth-child(1) {
+        width: 10%;
+    }
+    /* Order No */
+    .table th:nth-child(2) {
+        width: 20%;
+    }
+    /* Name */
+    .table th:nth-child(3) {
+        width: 15%;
+    }
+    /* Total Amount */
+    .table th:nth-child(4) {
+        width: 15%;
+    }
+    /* Order Date */
+    .table th:nth-child(5) {
+        width: 15%;
+    }
+    /* Order Status */
+    .table th:nth-child(6) {
+        width: 25%;
+    }
+    /* Actions (more space for icons) */
+
+
+    /* Order Status Badges */
+    /* Order Status Badges */
+    .table .badge {
+        font-size: 0.875rem;
+        padding: 0.4em 0.6em;
+        width: 100px; /* Set a fixed width for all badges */
+        display: inline-block; /* Required for width and padding to work correctly */
+        text-align: center; /* Ensures text within the badge is centered */
+    }
+
+.badge-pending {
+    background-color: #6c757d;
+    color: white;
+}
+
+.badge-processing {
+    background-color: #5a6268;
+    color: white;
+}
+
+.badge-shipped {
+    background-color: #495057;
+    color: white;
+}
+
+.badge-delivered {
+    background-color: #343a40;
+    color: white;
+}
+
+.badge-cancelled {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Action Icons */
+.action-icons i {
+    cursor: pointer;
+    margin: 0 5px;
+    font-size: 1.2rem;
+    color: #343a40;
+    transition: color 0.2s ease-in-out;
+}
+
+    .action-icons i.fa-edit:hover {
+        color: #007bff; /* A more common edit color */
+    }
+
+    .action-icons i.fa-eye:hover {
+        color: #28a745; /* A more common view color */
+    }
+
+/* Pagination Controls */
+.pagination .page-item.active .page-link {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: white;
+}
+
+.pagination .page-link {
+    color: #343a40;
+}
+
+    .pagination .page-link:hover {
+        background-color: #e9ecef;
+    }
+
+.pagination .page-item.disabled .page-link {
+    color: #6c757d;
+}
+
+/* Add Product Button */
+.btn-add-product {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: white;
+    transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+}
+
+    .btn-add-product:hover {
+        background-color: #c82333;
+        border-color: #bd2130;
+    }
+
+/* Modal Styling */
+.modal-header {
+    background-color: #343a40;
+    color: white;
+}
+
+.modal-title {
+    font-weight: 600;
+}
+
+.close {
+    color: white;
+    opacity: 1;
+    text-shadow: none;
+}
+
+.btn-primary {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+    .btn-primary:hover {
+        background-color: #c82333;
+        border-color: #bd2130;
+    }
+
+/* ======================================= */
+/* NEW CSS for Delivery Status Progress Bar */
+/* ======================================= */
+
+.delivery-status-container {
+    display: flex; /* Use flexbox to lay out items in a row */
+    align-items: center; /* Vertically align items in the center */
+    justify-content: space-between; /* Distribute space between items */
+    padding: 20px;
+    /* Removed background-color, border-radius, box-shadow if already on .card parent */
+}
+
+.status-step {
+    display: flex;
+    flex-direction: column; /* Stack icon and text vertically */
+    align-items: center; /* Center content horizontally */
+    text-align: center;
+    flex: 1; /* This is key: makes all status steps take equal width */
+    min-width: 0; /* Allows content to shrink if needed within the flex item */
+    position: relative; /* For icon positioning if needed */
+    padding: 0 5px; /* Adjust padding for spacing within step */
+}
+
+.icon-circle {
+    width: 45px; /* Slightly larger circle */
+    height: 45px;
+    border-radius: 50%;
+    background-color: #e0e0e0; /* Default circle color */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 1.4rem; /* Larger icon */
+    z-index: 1; /* Ensure circles are above lines */
+    border: 2px solid #e0e0e0; /* Default border */
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.status-step p {
+    margin-top: 8px;
+    font-size: 0.95rem; /* Slightly larger text */
+    color: #6c757d; /* Default text color */
+    font-weight: 500;
+    transition: color 0.3s ease;
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+.status-line {
+    flex: 1; /* Makes the line grow to fill available space */
+    height: 4px; /* Thickness of the line */
+    background-color: #e0e0e0; /* Default line color */
+    margin: 0 -22.5px; /* Adjust margin to connect lines with circles (half of circle width) */
+    z-index: 0; /* Ensure line is behind circles */
+    transition: background-color 0.3s ease;
+}
+
+/* Active status styling */
+.status-step.active .icon-circle {
+    background-color: #28a745; /* Green for active/completed steps */
+    border-color: #28a745;
+    color: #fff;
+}
+
+.status-step.active p {
+    color: #28a745; /* Green text for active/completed steps */
+}
+
+/* Connecting line for active steps */
+.status-step.active + .status-line {
+    background-color: #28a745; /* Green line for completed segments */
+}
+
+/* ======================================= */
+/* REVISED CSS for Delivery Status Progress Bar */
+/* ======================================= */
+
+.delivery-status-container {
+    display: flex; /* Use flexbox to lay out items in a row */
+    align-items: flex-start; /* Align items to the start (top) to keep text aligned */
+    justify-content: space-between; /* Distribute space between items */
+    padding: 20px 0; /* Add vertical padding, remove horizontal as steps will handle it */
+    position: relative; /* Needed for the absolute positioned line */
+}
+
+    /* The main line running through all steps */
+    .delivery-status-container::before {
+        content: '';
+        position: absolute;
+        top: 42px; /* Adjust to vertically center the line with the icon-circles */
+        left: 0;
+        right: 0;
+        height: 4px; /* Thickness of the line */
+        background-color: #e0e0e0; /* Default line color */
+        z-index: 0; /* Ensure line is behind circles */
+    }
+
+/* Individual status step (e.g., PENDING, SHIPPED) */
+.status-step {
+    display: flex;
+    flex-direction: column; /* Stack icon and text vertically */
+    align-items: center; /* Center content horizontally within the step */
+    text-align: center;
+    flex: 1; /* This is key: makes all status steps take equal width */
+    min-width: 0; /* Allows content to shrink if needed within the flex item */
+    z-index: 1; /* Ensure steps are above the line */
+    padding: 0 10px; /* Add internal padding to create space around content */
+}
+
+.icon-circle {
+    width: 45px; /* Slightly larger circle */
+    height: 45px;
+    border-radius: 50%;
+    background-color: #e0e0e0; /* Default circle color */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 1.4rem; /* Larger icon */
+    border: 2px solid #e0e0e0; /* Default border */
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.status-step p {
+    margin-top: 8px;
+    font-size: 0.95rem; /* Slightly larger text */
+    color: #6c757d; /* Default text color */
+    font-weight: 500;
+    transition: color 0.3s ease;
+    white-space: nowrap; /* Prevent text wrapping, keep it on one line */
+    overflow: hidden; /* Hide overflowing text if it's too long */
+    text-overflow: ellipsis; /* Add ellipsis for hidden text */
+    max-width: 100%; /* Ensure text respects its parent's width */
+}
+
+/* Active status styling */
+.status-step.active .icon-circle {
+    background-color: #28a745; /* Green for active/completed steps */
+    border-color: #28a745;
+    color: #fff;
+}
+
+.status-step.active p {
+    color: #28a745; /* Green text for active/completed steps */
+}
+
+/* Dynamic line coloring based on active steps (requires JS or more complex CSS) */
+/* This part needs JavaScript to accurately color the line segments between active steps.
+   The ::before pseudo-element creates one single line.
+   If you want segment-by-segment coloring, you'd typically apply a class to the container
+   and then use sibling selectors, or use JS to manipulate line segments directly.
+   For simplicity and true uniformity, the `::before` approach with a single line is more robust. */
+
+/* Specific styling for the 'Delivered' step (yellow circle) */
+/* Assuming 'Delivered' is the 3rd child of status-step in HTML (0-indexed for flex items) */
+.delivery-status-container .status-step:nth-child(3) .icon-circle {
+    background-color: #ffc107; /* Yellow color for delivered */
+    border-color: #ffc107;
+}
+
+.delivery-status-container .status-step:nth-child(3) p {
+    color: #ffc107; /* Yellow text for delivered */
+}
+
+/* Specific styling for the 'Cancelled' step (grey/red circle) */
+.delivery-status-container .status-step:last-child .icon-circle {
+    background-color: #6c757d; /* Grey for cancelled initial state */
+    border-color: #6c757d;
+    color: #fff; /* Ensure icon is white */
+}
+
+.delivery-status-container .status-step:last-child p {
+    color: #6c757d; /* Grey text for cancelled initial state */
+}
+
+.delivery-status-container .status-step:last-child.active .icon-circle {
+    background-color: #dc3545; /* Red for active cancelled state */
+    border-color: #dc3545;
+}
+
+.delivery-status-container .status-step:last-child.active p {
+    color: #dc3545; /* Red text for active cancelled state */
+}
+
+/* Optional: Darken icons on hover for interactivity */
+.action-icons i:hover {
+    opacity: 0.8;
+}
+
+/* Ensure non-active icons are default grey */
+.status-step:not(.active) .icon-circle {
+    color: #fff; /* Icons inside non-active circles are white on grey background */
+}

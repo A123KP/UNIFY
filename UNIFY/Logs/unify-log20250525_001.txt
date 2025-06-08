@@ -1,0 +1,211 @@
+2025-05-25 23:15:39.262 +05:30 [INF] User profile is available. Using 'C:\Users\2406662\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-05-25 23:15:39.625 +05:30 [ERR] Hosting failed to start
+System.IO.IOException: Failed to bind to address http://127.0.0.1:5210: address already in use.
+ ---> Microsoft.AspNetCore.Connections.AddressInUseException: Only one usage of each socket address (protocol/network address/port) is normally permitted.
+ ---> System.Net.Sockets.SocketException (10048): Only one usage of each socket address (protocol/network address/port) is normally permitted.
+   at System.Net.Sockets.Socket.UpdateStatusAfterSocketErrorAndThrowException(SocketError error, Boolean disconnectOnFailure, String callerName)
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportOptions.CreateDefaultBoundListenSocket(EndPoint endpoint)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportFactory.BindAsync(EndPoint endpoint, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure.TransportManager.BindAsync(EndPoint endPoint, ConnectionDelegate connectionDelegate, EndpointConfig endpointConfig, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.<>c__DisplayClass28_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.AddressesStrategy.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindAsync(ListenOptions[] listenOptions, AddressBindContext context, Func`2 useHttps, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.BindAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__15_1(IHostedService service, CancellationToken token)
+   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+2025-05-25 23:29:23.383 +05:30 [INF] User profile is available. Using 'C:\Users\2406662\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-05-25 23:29:23.705 +05:30 [INF] Now listening on: http://localhost:5210
+2025-05-25 23:29:23.767 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2025-05-25 23:29:23.768 +05:30 [INF] Hosting environment: Development
+2025-05-25 23:29:23.769 +05:30 [INF] Content root path: C:\PROJECT\UNIFY DEMO\Final Project\UNIFY\UNIFY
+2025-05-25 23:29:25.241 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5210/ - null null
+2025-05-25 23:29:25.730 +05:30 [WRN] Failed to determine the https port for redirect.
+2025-05-25 23:29:25.772 +05:30 [INF] Executing endpoint 'UNIFY.Controllers.HomeController.Index (UNIFY)'
+2025-05-25 23:29:25.813 +05:30 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller UNIFY.Controllers.HomeController (UNIFY).
+2025-05-25 23:29:25.826 +05:30 [INF] Accessing expired session, Key:9274b87e-6c09-c27a-fb29-78a13c288099
+2025-05-25 23:29:25.828 +05:30 [INF] Session Role in HomeController: 
+2025-05-25 23:29:25.842 +05:30 [INF] Executing ViewResult, running view Index.
+2025-05-25 23:29:26.160 +05:30 [INF] Executed ViewResult - view Index executed in 324.4153ms.
+2025-05-25 23:29:26.165 +05:30 [INF] Executed action UNIFY.Controllers.HomeController.Index (UNIFY) in 348.2957ms
+2025-05-25 23:29:26.167 +05:30 [INF] Executed endpoint 'UNIFY.Controllers.HomeController.Index (UNIFY)'
+2025-05-25 23:29:26.174 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5210/ - 200 null text/html; charset=utf-8 944.4311ms
+2025-05-25 23:29:26.236 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5210/_framework/aspnetcore-browser-refresh.js - null null
+2025-05-25 23:29:26.245 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5210/_framework/aspnetcore-browser-refresh.js - 200 16495 application/javascript; charset=utf-8 10.9096ms
+2025-05-25 23:29:26.330 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5210/_vs/browserLink - null null
+2025-05-25 23:29:26.411 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5210/_vs/browserLink - 200 null text/javascript; charset=UTF-8 80.5427ms
+2025-05-25 23:30:09.680 +05:30 [INF] User profile is available. Using 'C:\Users\2406662\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-05-25 23:30:09.849 +05:30 [INF] Now listening on: http://localhost:5210
+2025-05-25 23:30:09.853 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2025-05-25 23:30:09.855 +05:30 [INF] Hosting environment: Development
+2025-05-25 23:30:09.856 +05:30 [INF] Content root path: C:\PROJECT\UNIFY DEMO\Final Project\UNIFY\UNIFY
+2025-05-25 23:30:25.986 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5210/ - null null
+2025-05-25 23:30:25.999 +05:30 [WRN] Failed to determine the https port for redirect.
+2025-05-25 23:30:26.017 +05:30 [INF] Executing endpoint 'UNIFY.Controllers.HomeController.Index (UNIFY)'
+2025-05-25 23:30:26.065 +05:30 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller UNIFY.Controllers.HomeController (UNIFY).
+2025-05-25 23:30:26.074 +05:30 [INF] Accessing expired session, Key:9274b87e-6c09-c27a-fb29-78a13c288099
+2025-05-25 23:30:26.078 +05:30 [INF] Session Role in HomeController: 
+2025-05-25 23:30:26.100 +05:30 [INF] Executing ViewResult, running view Index.
+2025-05-25 23:30:26.265 +05:30 [INF] Executed ViewResult - view Index executed in 168.7307ms.
+2025-05-25 23:30:26.272 +05:30 [INF] Executed action UNIFY.Controllers.HomeController.Index (UNIFY) in 201.5909ms
+2025-05-25 23:30:26.275 +05:30 [INF] Executed endpoint 'UNIFY.Controllers.HomeController.Index (UNIFY)'
+2025-05-25 23:30:26.288 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5210/ - 200 null text/html; charset=utf-8 302.671ms
+2025-05-25 23:30:31.217 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5210/UPM/Register - null null
+2025-05-25 23:30:31.225 +05:30 [INF] Executing endpoint 'UNIFY.Controllers.UPM.Register (UNIFY)'
+2025-05-25 23:30:31.231 +05:30 [INF] Route matched with {action = "Register", controller = "UPM"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Register() on controller UNIFY.Controllers.UPM (UNIFY).
+2025-05-25 23:30:31.655 +05:30 [INF] Executing ViewResult, running view Register.
+2025-05-25 23:30:31.674 +05:30 [INF] Accessing expired session, Key:9274b87e-6c09-c27a-fb29-78a13c288099
+2025-05-25 23:30:31.678 +05:30 [INF] Executed ViewResult - view Register executed in 23.5384ms.
+2025-05-25 23:30:31.680 +05:30 [INF] Executed action UNIFY.Controllers.UPM.Register (UNIFY) in 445.5284ms
+2025-05-25 23:30:31.683 +05:30 [INF] Executed endpoint 'UNIFY.Controllers.UPM.Register (UNIFY)'
+2025-05-25 23:30:31.687 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5210/UPM/Register - 200 null text/html; charset=utf-8 470.5204ms
+2025-05-25 23:30:35.169 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5210/UPM/Login - null null
+2025-05-25 23:30:35.178 +05:30 [INF] Executing endpoint 'UNIFY.Controllers.UPM.Login (UNIFY)'
+2025-05-25 23:30:35.183 +05:30 [INF] Route matched with {action = "Login", controller = "UPM"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Login() on controller UNIFY.Controllers.UPM (UNIFY).
+2025-05-25 23:30:35.195 +05:30 [INF] Executing ViewResult, running view Login.
+2025-05-25 23:30:35.200 +05:30 [INF] Accessing expired session, Key:9274b87e-6c09-c27a-fb29-78a13c288099
+2025-05-25 23:30:35.206 +05:30 [INF] Executed ViewResult - view Login executed in 11.7267ms.
+2025-05-25 23:30:35.208 +05:30 [INF] Executed action UNIFY.Controllers.UPM.Login (UNIFY) in 20.6005ms
+2025-05-25 23:30:35.209 +05:30 [INF] Executed endpoint 'UNIFY.Controllers.UPM.Login (UNIFY)'
+2025-05-25 23:30:35.212 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5210/UPM/Login - 200 null text/html; charset=utf-8 42.6286ms
+2025-05-25 23:30:43.707 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5210/UPM/LoginUser - application/x-www-form-urlencoded 235
+2025-05-25 23:30:43.715 +05:30 [INF] Executing endpoint 'UNIFY.Controllers.UPM.LoginUser (UNIFY)'
+2025-05-25 23:30:43.726 +05:30 [INF] Route matched with {action = "LoginUser", controller = "UPM"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult LoginUser(System.String, System.String) on controller UNIFY.Controllers.UPM (UNIFY).
+2025-05-25 23:30:45.535 +05:30 [INF] Executed DbCommand (60ms) [Parameters=[@__LoginEmail_0='?' (Size = 100), @__LoginEmail_0_1='?' (Size = 50)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[UserId], [u].[Email], [u].[Password], [u].[Role], [u].[Username]
+FROM [Users] AS [u]
+WHERE [u].[Email] = @__LoginEmail_0 OR [u].[Username] = @__LoginEmail_0_1
+2025-05-25 23:30:45.752 +05:30 [INF] Accessing expired session, Key:9274b87e-6c09-c27a-fb29-78a13c288099
+2025-05-25 23:30:45.754 +05:30 [INF] Executing RedirectResult, redirecting to /.
+2025-05-25 23:30:45.755 +05:30 [INF] Executed action UNIFY.Controllers.UPM.LoginUser (UNIFY) in 2026.2569ms
+2025-05-25 23:30:45.757 +05:30 [INF] Executed endpoint 'UNIFY.Controllers.UPM.LoginUser (UNIFY)'
+2025-05-25 23:30:45.760 +05:30 [INF] Session started; Key:9274b87e-6c09-c27a-fb29-78a13c288099, Id:31db7bcc-ba32-0e49-89ec-b2d51dc61a27
+2025-05-25 23:30:45.769 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5210/UPM/LoginUser - 302 0 null 2062.3298ms
+2025-05-25 23:30:45.772 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5210/ - null null
+2025-05-25 23:30:45.775 +05:30 [INF] Executing endpoint 'UNIFY.Controllers.HomeController.Index (UNIFY)'
+2025-05-25 23:30:45.776 +05:30 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller UNIFY.Controllers.HomeController (UNIFY).
+2025-05-25 23:30:45.779 +05:30 [INF] Session Role in HomeController: 0
+2025-05-25 23:30:45.781 +05:30 [INF] Executing ViewResult, running view Index.
+2025-05-25 23:30:45.783 +05:30 [INF] Executed ViewResult - view Index executed in 2.5331ms.
+2025-05-25 23:30:45.786 +05:30 [INF] Executed action UNIFY.Controllers.HomeController.Index (UNIFY) in 6.8863ms
+2025-05-25 23:30:45.788 +05:30 [INF] Executed endpoint 'UNIFY.Controllers.HomeController.Index (UNIFY)'
+2025-05-25 23:30:45.791 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5210/ - 200 null text/html; charset=utf-8 18.7574ms
+2025-05-25 23:30:45.815 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5210/images/profile.png - null null
+2025-05-25 23:30:45.821 +05:30 [INF] The file /images/profile.png was not modified
+2025-05-25 23:30:45.823 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5210/images/profile.png - 304 null image/png 7.5826ms
+2025-05-25 23:31:11.602 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5210/Cart - null null
+2025-05-25 23:31:11.606 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5210/Cart - 404 0 null 3.6664ms
+2025-05-25 23:31:11.613 +05:30 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5210/Cart, Response status code: 404
+2025-05-25 23:31:17.022 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5210/UPM/Profile - null null
+2025-05-25 23:31:17.026 +05:30 [INF] Executing endpoint 'UNIFY.Controllers.UPM.Profile (UNIFY)'
+2025-05-25 23:31:17.028 +05:30 [INF] Route matched with {action = "Profile", controller = "UPM"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Profile() on controller UNIFY.Controllers.UPM (UNIFY).
+2025-05-25 23:31:17.033 +05:30 [INF] Executing ViewResult, running view Profile.
+2025-05-25 23:31:17.036 +05:30 [INF] Executed ViewResult - view Profile executed in 4.3536ms.
+2025-05-25 23:31:17.037 +05:30 [INF] Executed action UNIFY.Controllers.UPM.Profile (UNIFY) in 6.7783ms
+2025-05-25 23:31:17.040 +05:30 [INF] Executed endpoint 'UNIFY.Controllers.UPM.Profile (UNIFY)'
+2025-05-25 23:31:17.044 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5210/UPM/Profile - 200 null text/html; charset=utf-8 21.6492ms
+2025-05-25 23:31:20.714 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5210/ - null null
+2025-05-25 23:31:20.716 +05:30 [INF] Executing endpoint 'UNIFY.Controllers.HomeController.Index (UNIFY)'
+2025-05-25 23:31:20.718 +05:30 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller UNIFY.Controllers.HomeController (UNIFY).
+2025-05-25 23:31:20.720 +05:30 [INF] Session Role in HomeController: 0
+2025-05-25 23:31:20.721 +05:30 [INF] Executing ViewResult, running view Index.
+2025-05-25 23:31:20.724 +05:30 [INF] Executed ViewResult - view Index executed in 2.9653ms.
+2025-05-25 23:31:20.726 +05:30 [INF] Executed action UNIFY.Controllers.HomeController.Index (UNIFY) in 6.1493ms
+2025-05-25 23:31:20.728 +05:30 [INF] Executed endpoint 'UNIFY.Controllers.HomeController.Index (UNIFY)'
+2025-05-25 23:31:20.730 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5210/ - 200 null text/html; charset=utf-8 16.4492ms
+2025-05-25 23:33:01.211 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5210/ - null null
+2025-05-25 23:33:01.216 +05:30 [INF] Executing endpoint 'UNIFY.Controllers.HomeController.Index (UNIFY)'
+2025-05-25 23:33:01.218 +05:30 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller UNIFY.Controllers.HomeController (UNIFY).
+2025-05-25 23:33:01.222 +05:30 [INF] Session Role in HomeController: 0
+2025-05-25 23:33:01.224 +05:30 [INF] Executing ViewResult, running view Index.
+2025-05-25 23:33:01.226 +05:30 [INF] Executed ViewResult - view Index executed in 3.099ms.
+2025-05-25 23:33:01.228 +05:30 [INF] Executed action UNIFY.Controllers.HomeController.Index (UNIFY) in 6.9094ms
+2025-05-25 23:33:01.230 +05:30 [INF] Executed endpoint 'UNIFY.Controllers.HomeController.Index (UNIFY)'
+2025-05-25 23:33:01.233 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5210/ - 200 null text/html; charset=utf-8 21.1507ms
+2025-05-25 23:34:31.957 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5210/ - null null
+2025-05-25 23:34:31.967 +05:30 [INF] Executing endpoint 'UNIFY.Controllers.HomeController.Index (UNIFY)'
+2025-05-25 23:34:31.972 +05:30 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller UNIFY.Controllers.HomeController (UNIFY).
+2025-05-25 23:34:31.977 +05:30 [INF] Session Role in HomeController: 0
+2025-05-25 23:34:31.981 +05:30 [INF] Executing ViewResult, running view Index.
+2025-05-25 23:34:31.985 +05:30 [INF] Executed ViewResult - view Index executed in 3.8125ms.
+2025-05-25 23:34:31.988 +05:30 [INF] Executed action UNIFY.Controllers.HomeController.Index (UNIFY) in 11.0599ms
+2025-05-25 23:34:31.990 +05:30 [INF] Executed endpoint 'UNIFY.Controllers.HomeController.Index (UNIFY)'
+2025-05-25 23:34:31.995 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5210/ - 200 null text/html; charset=utf-8 37.3121ms
+2025-05-25 23:34:32.360 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5210/ - null null
+2025-05-25 23:34:32.368 +05:30 [INF] Executing endpoint 'UNIFY.Controllers.HomeController.Index (UNIFY)'
+2025-05-25 23:34:32.370 +05:30 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller UNIFY.Controllers.HomeController (UNIFY).
+2025-05-25 23:34:32.373 +05:30 [INF] Session Role in HomeController: 0
+2025-05-25 23:34:32.375 +05:30 [INF] Executing ViewResult, running view Index.
+2025-05-25 23:34:32.378 +05:30 [INF] Executed ViewResult - view Index executed in 3.0961ms.
+2025-05-25 23:34:32.380 +05:30 [INF] Executed action UNIFY.Controllers.HomeController.Index (UNIFY) in 7.1482ms
+2025-05-25 23:34:32.382 +05:30 [INF] Executed endpoint 'UNIFY.Controllers.HomeController.Index (UNIFY)'
+2025-05-25 23:34:32.385 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5210/ - 200 null text/html; charset=utf-8 24.4724ms
+2025-05-25 23:35:04.612 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5210/ - null null
+2025-05-25 23:35:04.616 +05:30 [INF] Executing endpoint 'UNIFY.Controllers.HomeController.Index (UNIFY)'
+2025-05-25 23:35:04.618 +05:30 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller UNIFY.Controllers.HomeController (UNIFY).
+2025-05-25 23:35:04.621 +05:30 [INF] Session Role in HomeController: 0
+2025-05-25 23:35:04.622 +05:30 [INF] Executing ViewResult, running view Index.
+2025-05-25 23:35:04.624 +05:30 [INF] Executed ViewResult - view Index executed in 2.3543ms.
+2025-05-25 23:35:04.626 +05:30 [INF] Executed action UNIFY.Controllers.HomeController.Index (UNIFY) in 4.7037ms
+2025-05-25 23:35:04.629 +05:30 [INF] Executed endpoint 'UNIFY.Controllers.HomeController.Index (UNIFY)'
+2025-05-25 23:35:04.632 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5210/ - 200 null text/html; charset=utf-8 19.8372ms
+2025-05-25 23:35:05.166 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5210/ - null null
+2025-05-25 23:35:05.169 +05:30 [INF] Executing endpoint 'UNIFY.Controllers.HomeController.Index (UNIFY)'
+2025-05-25 23:35:05.170 +05:30 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller UNIFY.Controllers.HomeController (UNIFY).
+2025-05-25 23:35:05.174 +05:30 [INF] Session Role in HomeController: 0
+2025-05-25 23:35:05.176 +05:30 [INF] Executing ViewResult, running view Index.
+2025-05-25 23:35:05.178 +05:30 [INF] Executed ViewResult - view Index executed in 2.5671ms.
+2025-05-25 23:35:05.181 +05:30 [INF] Executed action UNIFY.Controllers.HomeController.Index (UNIFY) in 6.6408ms
+2025-05-25 23:35:05.184 +05:30 [INF] Executed endpoint 'UNIFY.Controllers.HomeController.Index (UNIFY)'
+2025-05-25 23:35:05.187 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5210/ - 200 null text/html; charset=utf-8 21.3462ms
+2025-05-25 23:35:05.460 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5210/ - null null
+2025-05-25 23:35:05.464 +05:30 [INF] Executing endpoint 'UNIFY.Controllers.HomeController.Index (UNIFY)'
+2025-05-25 23:35:05.466 +05:30 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller UNIFY.Controllers.HomeController (UNIFY).
+2025-05-25 23:35:05.468 +05:30 [INF] Session Role in HomeController: 0
+2025-05-25 23:35:05.469 +05:30 [INF] Executing ViewResult, running view Index.
+2025-05-25 23:35:05.471 +05:30 [INF] Executed ViewResult - view Index executed in 1.8049ms.
+2025-05-25 23:35:05.473 +05:30 [INF] Executed action UNIFY.Controllers.HomeController.Index (UNIFY) in 5.3637ms
+2025-05-25 23:35:05.475 +05:30 [INF] Executed endpoint 'UNIFY.Controllers.HomeController.Index (UNIFY)'
+2025-05-25 23:35:05.478 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5210/ - 200 null text/html; charset=utf-8 17.79ms
+2025-05-25 23:35:06.226 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5210/Cart - null null
+2025-05-25 23:35:06.229 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5210/Cart - 404 0 null 3.1879ms
+2025-05-25 23:35:06.233 +05:30 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5210/Cart, Response status code: 404
+2025-05-25 23:35:09.806 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5210/ - null null
+2025-05-25 23:35:09.810 +05:30 [INF] Executing endpoint 'UNIFY.Controllers.HomeController.Index (UNIFY)'
+2025-05-25 23:35:09.814 +05:30 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller UNIFY.Controllers.HomeController (UNIFY).
+2025-05-25 23:35:09.817 +05:30 [INF] Session Role in HomeController: 0
+2025-05-25 23:35:09.819 +05:30 [INF] Executing ViewResult, running view Index.
+2025-05-25 23:35:09.821 +05:30 [INF] Executed ViewResult - view Index executed in 2.37ms.
+2025-05-25 23:35:09.824 +05:30 [INF] Executed action UNIFY.Controllers.HomeController.Index (UNIFY) in 6.7211ms
+2025-05-25 23:35:09.827 +05:30 [INF] Executed endpoint 'UNIFY.Controllers.HomeController.Index (UNIFY)'
+2025-05-25 23:35:09.830 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5210/ - 200 null text/html; charset=utf-8 23.7646ms
+2025-05-25 23:35:10.003 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5210/ - null null
+2025-05-25 23:35:10.005 +05:30 [INF] Executing endpoint 'UNIFY.Controllers.HomeController.Index (UNIFY)'
+2025-05-25 23:35:10.006 +05:30 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller UNIFY.Controllers.HomeController (UNIFY).
+2025-05-25 23:35:10.011 +05:30 [INF] Session Role in HomeController: 0
+2025-05-25 23:35:10.013 +05:30 [INF] Executing ViewResult, running view Index.
+2025-05-25 23:35:10.016 +05:30 [INF] Executed ViewResult - view Index executed in 3.3745ms.
+2025-05-25 23:35:10.019 +05:30 [INF] Executed action UNIFY.Controllers.HomeController.Index (UNIFY) in 7.7198ms
+2025-05-25 23:35:10.022 +05:30 [INF] Executed endpoint 'UNIFY.Controllers.HomeController.Index (UNIFY)'
+2025-05-25 23:35:10.025 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5210/ - 200 null text/html; charset=utf-8 22.2373ms
+2025-05-25 23:35:10.170 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5210/ - null null
+2025-05-25 23:35:10.174 +05:30 [INF] Executing endpoint 'UNIFY.Controllers.HomeController.Index (UNIFY)'
+2025-05-25 23:35:10.175 +05:30 [INF] Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller UNIFY.Controllers.HomeController (UNIFY).
+2025-05-25 23:35:10.178 +05:30 [INF] Session Role in HomeController: 0
+2025-05-25 23:35:10.180 +05:30 [INF] Executing ViewResult, running view Index.
+2025-05-25 23:35:10.182 +05:30 [INF] Executed ViewResult - view Index executed in 2.5678ms.
+2025-05-25 23:35:10.184 +05:30 [INF] Executed action UNIFY.Controllers.HomeController.Index (UNIFY) in 6.5097ms
+2025-05-25 23:35:10.188 +05:30 [INF] Executed endpoint 'UNIFY.Controllers.HomeController.Index (UNIFY)'
+2025-05-25 23:35:10.191 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5210/ - 200 null text/html; charset=utf-8 20.8445ms
+2025-05-25 23:38:33.449 +05:30 [INF] Application is shutting down...

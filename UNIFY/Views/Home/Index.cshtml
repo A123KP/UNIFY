@@ -1,0 +1,342 @@
+﻿@using UNIFY.Models
+@{
+    ViewData["Title"] = "Welcome to UNIFY";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var flashSaleProducts = ViewBag.FlashSaleProducts as List<Product>;
+    var exploreProducts = ViewBag.ExploreProducts as List<Product>;
+    var categories = ViewBag.Categories as List<Category>;
+}
+<link href="~/css/home/styles.css" rel="stylesheet" />
+@* <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"> *@
+
+<header class="hero-section-container">
+    <div class="hero-slider-track">
+        <div class="hero-slide">
+            <img src="~/images/ProductCatalog/bannerimage1.jpg" alt="Summer Sale Banner" />
+            <div class="hero-content">
+               
+            </div>
+        </div>
+        <div class="hero-slide">
+            <img src="~/images/productcatalog/bannerimage2.jpg" alt="New Arrivals Banner" />
+            <div class="hero-content">
+                
+            </div>
+        </div>
+        <div class="hero-slide">
+            <img src="~/images/productcatalog/bannerimage3.jpg" alt="Flash Deals Banner" />
+            <div class="hero-content">
+                
+            </div>
+        </div>
+        <div class="hero-slide">
+            <img src="~/images/productcatalog/bannerimage.jpg" alt="Free Shipping Banner" />
+            <div class="hero-content">
+               
+            </div>
+        </div>
+    </div>
+</header>
+<main class="container my-4">
+    <section class="flash-sales-section mb-5">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="section-title">Flash Sales</h2>
+            <div class="sale-badge-container">
+                <span class="sale-badge-text">SALE</span>
+            </div>
+        </div>
+        <div class="product-slider-wrapper">
+            <button class="slider-arrow prev-arrow" aria-label="Previous Products"><i class="bi bi-chevron-left"></i></button>
+            <div class="product-grid-horizontal">
+                @if (flashSaleProducts != null && flashSaleProducts.Any())
+                {
+                    @foreach (var product in flashSaleProducts)
+                    {
+                        <div class="product-card">
+                            <a asp-controller="Home" asp-action="Details" asp-route-id="@product.ProductId" class="text-decoration-none text-dark d-block">
+                                @{
+                                    string imagePath = $"/images/ProductCatalog/Product{product.ProductId}.jpg";
+                                    string fallbackImagePath = "/images/placeholder.png";
+                                }
+                                <img src="@imagePath" alt="@product.Name" class="product-image" onerror="this.onerror=null;this.src='@fallbackImagePath';">
+                                <div class="product-info">
+                                    <p class="product-name">@product.Name</p>
+                                    <p class="product-description">@product.Description</p>
+                                    <p class="product-price">₹@product.Price.ToString("N2")</p>
+                                    <button type="button" class="add-to-cart-hover index-add-to-cart-btn"
+                                            data-product-id="@product.ProductId"
+                                            data-product-name="@product.Name"
+                                            data-product-price="@product.Price"
+                                            data-product-image="@imagePath">
+                                        Add to Cart
+                                    </button>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p>No flash sale products available yet.</p>
+                }
+            </div>
+            <button class="slider-arrow next-arrow" aria-label="Next Products"><i class="bi bi-chevron-right"></i></button>
+        </div>
+    </section>
+
+    <section class="shop-categories-section mb-5">
+        <h2 class="section-title text-center mb-4">Shop Our Top Categories</h2>
+        <div class="row g-3 justify-content-center">
+            @if (categories != null && categories.Any())
+            {
+                @foreach (var category in categories)
+                {
+                    <div class="col-6 col-md-4 col-lg-2">
+                        <a asp-controller="Home" asp-action="ByCategory" asp-route-categoryId="@category.CategoryId" class="text-decoration-none d-block h-100">
+
+                            <div class="category-item">
+                                @if (category.Name == "Phones")
+                                {
+                                    <i class="bi bi-phone fs-2 mb-2"></i>
+                                }
+                                else if (category.Name == "Laptops")
+                                {
+                                    <i class="bi bi-laptop fs-2 mb-2"></i>
+                                }
+                                else if (category.Name == "Cameras")
+                                {
+                                    <i class="bi bi-camera fs-2 mb-2"></i>
+                                }
+                                else if (category.Name == "Smartwatches")
+                                {
+                                    <i class="bi bi-watch fs-2 mb-2"></i>
+                                }
+                                else if (category.Name == "TVs")
+                                {
+                                    <i class="bi bi-tv fs-2 mb-2"></i>
+                                }
+                                else if (category.Name == "Gaming")
+                                {
+                                    <i class="bi bi-controller fs-2 mb-2"></i>
+                                }
+                                else
+                                {
+                                    <i class="bi bi-collection fs-2 mb-2"></i>
+                                }
+                                <p>@category.Name</p>
+                            </div>
+
+
+                        </a>
+                    </div>
+                }
+            }
+            else
+            {
+                <p class="text-center">No categories found.</p>
+            }
+        </div>
+    </section>
+
+    <section class="explore-products-section mb-5">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="section-title">Explore Our Products</h2>
+            <a asp-controller="Home" asp-action="AllProducts" class="text-decoration-none text-dark">View All &rarr;</a>
+        </div>
+
+
+        <div class="product-slider-wrapper">
+            <button class="slider-arrow prev-arrow" aria-label="Previous Products"><i class="bi bi-chevron-left"></i></button>
+            <div class="product-grid-horizontal">
+                @if (exploreProducts != null && exploreProducts.Any())
+                {
+                    @foreach (var product in exploreProducts)
+                    {
+                        <div class="product-card">
+                            <a asp-controller="Home" asp-action="Details" asp-route-id="@product.ProductId" class="text-decoration-none text-dark d-block">
+                                @{
+                                    string imagePath = $"/images/ProductCatalog/Product{product.ProductId}.jpg";
+                                    string fallbackImagePath = "/images/placeholder.png";
+                                }
+                                <img src="@imagePath" alt="@product.Name" class="product-image" onerror="this.onerror=null;this.src='@fallbackImagePath';">
+                                <div class="product-info">
+                                    <p class="product-name">@product.Name</p>
+                                    <p class="product-price">₹@product.Price.ToString("N2")</p>
+                                    <button type="button" class="add-to-cart-hover index-add-to-cart-btn"
+                                            data-product-id="@product.ProductId"
+                                            data-product-name="@product.Name"
+                                            data-product-price="@product.Price"
+                                            data-product-image="@imagePath">
+                                        Add to Cart
+                                    </button>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p>No products to explore yet.</p>
+                }
+            </div>
+            <button class="slider-arrow next-arrow" aria-label="Next Products"><i class="bi bi-chevron-right"></i></button>
+        </div>
+    </section>
+
+    <section class="features-section py-4">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <i class="bi bi-truck fs-1 mb-2" style="color: black"></i>
+                    <h3 class="h5">FREE AND FAST DELIVERY</h3>
+                    <p class="small">On all orders over ₹2000</p>
+                </div>
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <i class="bi bi-headset fs-1 mb-2" style="color: black;"></i>
+                    <h3 class="h5">24/7 CUSTOMER SERVICE</h3>
+                    <p class="small">Friendly 24/7 customer support</p>
+                </div>
+                <div class="col-md-4">
+                    <i class="bi bi-shield-check fs-1 mb-2" style="color: black;"></i>
+                    <h3 class="h5">MONEY BACK GUARANTEE</h3>
+                    <p class="small">We return money within 24 Hours</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+@section Scripts {
+    <script>
+        // Shared Cart Logic (ideally in a global script, but placed here as per constraints)
+        const CART_KEY_SHARED = "userCart"; // Must match Cart.cshtml
+        const MAX_QUANTITY_PER_ITEM_SHARED = 5; // Must match Cart.cshtml
+
+        function getClientCartShared() {
+            return JSON.parse(localStorage.getItem(CART_KEY_SHARED) || "[]");
+        }
+
+        function setClientCartShared(cart) {
+            localStorage.setItem(CART_KEY_SHARED, JSON.stringify(cart));
+            updateCartCountInHeaderShared();
+        }
+
+        function addProductToCartShared(productId, name, price, image) {
+            let cart = getClientCartShared();
+            const numProductId = parseInt(productId);
+            const floatPrice = parseFloat(price);
+
+            const existingItemIndex = cart.findIndex(item => parseInt(item.productId) === numProductId);
+
+            if (existingItemIndex > -1) {
+                if (cart[existingItemIndex].quantity < MAX_QUANTITY_PER_ITEM_SHARED) {
+                    cart[existingItemIndex].quantity += 1;
+                } else {
+                    showCartToast(`Max ${MAX_QUANTITY_PER_ITEM_SHARED} units for "${name}".`, 'warning');
+                    return;
+                }
+            } else {
+                cart.push({ productId: numProductId, name: name, price: floatPrice, quantity: 1, image: image });
+            }
+            setClientCartShared(cart);
+            showCartToast(`"${name}" added to cart!`);
+        }
+
+        function updateCartCountInHeaderShared() {
+            const cart = getClientCartShared();
+            let totalItems = 0;
+            cart.forEach(item => {
+                totalItems += item.quantity;
+            });
+            // Assuming your _Layout.cshtml has an element like <span id="cart-item-count-display">0</span>
+            $('#cart-item-count-display').text(totalItems);
+        }
+
+        function showCartToast(message, type = 'success') {
+            let toastElement = $('.cart-toast');
+            if (!toastElement.length) {
+                toastElement = $('<div class="cart-toast"></div>').appendTo('body');
+                // Basic styling for toast - enhance in your CSS file
+                if (!$('style#cart-toast-style').length) {
+                        $('<style id="cart-toast-style">' +
+                            '.cart-toast { position: fixed; bottom: 20px; right: 20px; padding: 15px; border-radius: 5px; z-index: 1050; color: white; font-size: 1rem; box-shadow: 0 0 10px rgba(0,0,0,0.2); display: none; }' +
+                            '.cart-toast.success { background-color: #000000; }' +
+                            '.cart-toast.warning { background-color: #ffc107; color: #333 }' +
+                        '</style>').appendTo('head');
+                }
+            }
+            toastElement.text(message).removeClass('success warning').addClass(type);
+            toastElement.stop(true, true).fadeIn(400).delay(2500).fadeOut(400);
+        }
+
+
+        $(document).ready(function () {
+            // Existing slider script
+            $('.product-slider-wrapper').each(function () {
+                var sliderWrapper = $(this);
+                var productGrid = sliderWrapper.find('.product-grid-horizontal');
+                var prevArrow = sliderWrapper.find('.prev-arrow');
+                var nextArrow = sliderWrapper.find('.next-arrow');
+
+                function getScrollAmount() {
+                    var firstCard = productGrid.find('.product-card:first');
+                    if (firstCard.length) {
+                        var cardWidth = firstCard.outerWidth();
+                        var cardMarginRight = parseFloat(firstCard.css('margin-right')) || 0;
+                        var assumedGap = 16;
+                        return cardWidth + Math.max(cardMarginRight, assumedGap);
+                    }
+                    return 300;
+                }
+
+                prevArrow.on('click', function () {
+                    productGrid.animate({ scrollLeft: '-=' + getScrollAmount() }, 100);
+                });
+
+                nextArrow.on('click', function () {
+                    productGrid.animate({ scrollLeft: '+=' + getScrollAmount() }, 100);
+                });
+
+                function updateArrowVisibility() {
+                    var scrollLeft = productGrid.scrollLeft();
+                    var scrollWidth = productGrid.get(0).scrollWidth;
+                    var clientWidth = productGrid.innerWidth();
+
+                    if (scrollLeft <= 0) {
+                        prevArrow.css('visibility', 'hidden');
+                    } else {
+                        prevArrow.css('visibility', 'visible');
+                    }
+
+                    if (scrollLeft + clientWidth >= scrollWidth - 5) {
+                        nextArrow.css('visibility', 'hidden');
+                    } else {
+                        nextArrow.css('visibility', 'visible');
+                    }
+                }
+
+                productGrid.on('scroll', updateArrowVisibility);
+                updateArrowVisibility();
+                $(window).on('resize', updateArrowVisibility);
+            });
+
+            // Add to Cart for Index.cshtml
+            // Using a more specific selector to target buttons inside .product-card within .product-grid-horizontal
+                $('.product-grid-horizontal').on('click', '.index-add-to-cart-btn', function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+
+                const $button = $(this);
+                const productId = $button.data('product-id');
+                const productName = $button.data('product-name');
+                const productPrice = $button.data('product-price'); // Already a number
+                const productImage = $button.data('product-image');
+
+                addProductToCartShared(productId, productName, productPrice, productImage);
+            });
+
+            updateCartCountInHeaderShared(); // Initial cart count update
+        });
+    </script>
+}

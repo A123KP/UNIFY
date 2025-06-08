@@ -1,0 +1,81 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+/*profile css */
+body {
+    background-color: #f8f9fa;
+}
+
+.profile-container {
+    max-width: 900px;
+    margin: 50px auto;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.profile-header {
+    border-bottom: 2px solid #1F3C56;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+}
+
+    .profile-header h3 {
+        color: #1F3C56;
+        margin: 0;
+    }
+
+.section-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #495057;
+    margin-bottom: 10px;
+}
+
+.form-control[disabled], .form-control:disabled {
+    background-color: #e9ecef;
+}
+
+.button-group {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.navbar-brand, /* use for that unify logo class to make it black */
+.navbar-brand:visited,
+.navbar-brand:active,
+.navbar-brand:focus,
+.navbar-brand:hover {
+    color: #000000 !important; /* or your preferred color */
+    text-decoration: none !important;
+    cursor: pointer;
+}
+
+
+
+
+
+/* Product */
+

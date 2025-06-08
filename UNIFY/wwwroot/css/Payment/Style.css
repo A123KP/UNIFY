@@ -1,0 +1,179 @@
+﻿/* General Body Styles */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8f9fa; /* Light background */
+    color: #212529; /* Dark text for light background */
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* Heading Styles */
+h2, h4 {
+    color: #343a40; /* Dark color for headings */
+}
+
+/* Breadcrumb Styles */
+.breadcrumb {
+    background-color: #ffffff; /* Light gray for breadcrumbs */
+    padding: 0.75rem 1.25rem;
+}
+
+A
+
+.breadcrumb-item a {
+    color: #706a6a; /* Standard bootstrap link color */
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+}
+
+.breadcrumb-item a:hover {
+    color: #212529; /* Darker blue on hover */
+}
+
+.breadcrumb-item.active {
+    color: #212529; /* Standard gray for active breadcrumb item */
+}
+
+/* Payment Navigation (Left Side) */
+.payment-nav .nav-link {
+    color: #706a6a; /* Darker text for nav links */
+    background-color: #ffffff; /* White background for nav items */
+    border: 1px solid #495057;
+    /*border: 1px solid #dee2e6 !important;  Lighter border */
+    margin-bottom: 0.5rem;
+    border-radius: 0.3rem;
+    transition: all 0.3s ease-in-out;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Subtle shadow for nav links */
+}
+
+    .payment-nav .nav-link:hover {
+        background-color: #f0f0f0; /* Slightly darker gray on hover */
+        color: #212529; /* Dark text on hover */
+        transform: translateX(5px) scale(1.03);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Enhanced shadow on hover */
+    }
+
+    .payment-nav .nav-link.active {
+        color: #fff;
+        background-color: #dc3545; /* Red for active tab, matching "Pay Now" button */
+        border-color: #dc3545 !important;
+        font-weight: bold;
+        box-shadow: 0 0 12px rgba(220, 53, 69, 0.5); /* Glowing effect on active tab */
+        transform: scale(1.05);
+    }
+
+/* Tab Content Panes (Right Side) */
+.tab-content > .tab-pane {
+    background-color: #ffffff; /* White background for content area */
+    border: 1px solid #495057; /* Lighter border i changed  */
+    padding: 1.75rem;
+    border-radius: 0.35rem;
+    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1); /* Softer shadow for light theme */
+    transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+    animation: fadeInPane 0.5s ease-out;
+}
+
+@keyframes fadeInPane {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.tab-content h4 {
+    color: #343a40; /* Dark heading color */
+    font-weight: 600;
+    border-bottom: 1px solid #e0e0e0; /* Lighter border bottom */
+    padding-bottom: 0.75rem;
+    margin-bottom: 1.75rem !important;
+}
+
+/* Form Styling */
+.form-group label {
+    color: #495057; /* Standard label color */
+    font-weight: 500;
+}
+
+.form-control {
+    background-color: #ffffff; /* White background for form inputs */
+    color: #495057; /* Dark text color for inputs */
+    border: 1px solid #ced4da; /* Standard Bootstrap input border */
+    border-radius: 0.25rem;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+    .form-control::placeholder {
+        color: #6c757d; /* Standard placeholder text color */
+    }
+
+    .form-control:focus {
+        border-color: #dc3545; /* Red focus border, matching active elements */
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25); /* Adjusted red focus glow for light theme */
+        background-color: #ffffff; /* Keep background white on focus */
+        color: #495057; /* Keep text color dark on focus */
+    }
+
+/* Button Styles */
+.btn {
+    transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out, background-color 0.2s ease, border-color 0.2s ease;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 0.3rem;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: #fff;
+}
+
+    .btn-danger:hover {
+        background-color: #c82333;
+        border-color: #bd2130;
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+    }
+
+.btn-outline-secondary {
+    color: #6c757d; /* Standard secondary text color */
+    border-color: #6c757d;
+}
+
+    .btn-outline-secondary:hover {
+        color: #fff; /* White text on hover */
+        background-color: #dc3545; /* Darker gray background on hover */
+        border-color: #bd2130; /* Matching border color */
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Adjusted shadow for light theme */
+    }
+
+.btn-success { /* Style for the Confirm COD button */
+    background-color: #28a745;
+    border-color: #28a745;
+    color: #fff;
+}
+
+    .btn-success:hover {
+        background-color: #218838;
+        border-color: #1e7e34;
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+    }
+
+
+/* COD Specific Text */
+#v-pills-cod p {
+    color: #495057; /* Darker text color for COD instructions */
+    line-height: 1.6;
+}
+
+/* Utility for spacing */
+.me-3 {
+    margin-right: 1rem !important;
+}

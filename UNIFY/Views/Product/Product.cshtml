@@ -1,0 +1,181 @@
+﻿@model IEnumerable<UNIFY.Models.Product>
+
+@{
+    ViewData["Title"] = "Products";
+    int currentPage = ViewBag.CurrentPage ?? 1;
+    int pageSize = ViewBag.PageSize ?? 10;
+    int itemCount = (currentPage - 1) * pageSize;
+}
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="~/css/product/productstyle.css" asp-append-version="true" />
+
+<div class="container mt-4">
+    @Html.AntiForgeryToken() @* <--- KEY FIX: Explicitly render the Anti-Forgery Token here *@
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Product List</h2>
+        @* CHANGE: Using asp-action for Add New Product button *@
+        <a asp-action="AddProduct" asp-controller="Product" class="btn btn-custom-red">
+            <i class="bi bi-plus-circle me-2"></i> Add New Product
+        </a>
+    </div>
+
+    @* Display TempData messages *@
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="table-responsive">
+        <table class="table table-hover table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>Product No.</th>
+                    <th>Product Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Category</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    @foreach (var product in Model)
+                    {
+                        itemCount++;
+                        <tr>
+                            <td>@itemCount</td>
+                            <td>@product.Name</td>
+                            <td>@product.Description</td>
+                            <td>₹@product.Price.ToString("N2")</td>
+                            <td>@product.StockQuantity</td>
+                            <td>@product.Category?.Name</td>
+                            <td>
+                                <div class="d-flex gap-2">
+                                    @* THIS IS THE KEY PART FOR SIDE-BY-SIDE BUTTONS *@
+                                    @* CHANGE: Using asp-action and asp-controller for Edit Product button *@
+                                    <a asp-action="EditProduct" asp-controller="Product" asp-route-id="@product.ProductId" class="btn btn-sm btn-outline-info btn-hover-fill" title="Edit">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                    <button type="button" class="btn btn-sm btn-outline-danger btn-hover-fill delete-product-btn"
+                                            data-id="@product.ProductId" data-name="@product.Name" title="Delete">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="7" class="text-center">No products found.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    @* Pagination *@
+    @{
+        int totalPages = ViewBag.TotalPages ?? 1;
+    }
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center pagination-custom">
+            <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                @* CHANGE: Using asp-action and asp-controller for pagination Previous link *@
+                <a class="page-link page-link-custom" asp-action="Product" asp-controller="Product" asp-route-pageNumber="@(currentPage - 1)" asp-route-pageSize="@pageSize">Previous</a>
+            </li>
+            @for (int i = 1; i <= totalPages; i++)
+            {
+                <li class="page-item @(i == currentPage ? "active" : "")">
+                    @* CHANGE: Using asp-action and asp-controller for pagination page links *@
+                    <a class="page-link page-link-custom" asp-action="Product" asp-controller="Product" asp-route-pageNumber="@i" asp-route-pageSize="@pageSize">@i</a>
+                </li>
+            }
+            <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
+                @* CHANGE: Using asp-action and asp-controller for pagination Next link *@
+                <a class="page-link page-link-custom" asp-action="Product" asp-controller="Product" asp-route-pageNumber="@(currentPage + 1)" asp-route-pageSize="@pageSize">Next</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).ready(function () {
+            // No need to dynamically add the token now that @Html.AntiForgeryToken() is explicit in the HTML.
+            // Just ensure the hidden input with name="__RequestVerificationToken" is present on the page.
+
+            $('.delete-product-btn').on('click', function () {
+                var productId = $(this).data('id');
+                var productName = $(this).data('name');
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    html: "You are about to delete product: <strong>" + productName + "</strong>.<br>This action cannot be undone!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc3545',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Yes, delete it!',
+                    cancelButtonText: 'No, cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            // CHANGE: Url.Action still used for AJAX POST as it's a JavaScript call
+                            url: '@Url.Action("DeleteProduct", "Product")',
+                            type: 'POST',
+                            data: { id: productId },
+                            headers: {
+                                // Retrieve the Anti-Forgery Token from the rendered hidden input
+                                'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+                            },
+                            success: function (response) {
+                                if (response.success) {
+                                    Swal.fire(
+                                        'Deleted!',
+                                        response.message,
+                                        'success'
+                                    ).then(() => {
+                                        window.location.reload();
+                                    });
+                                } else {
+                                    Swal.fire(
+                                        'Error!',
+                                        response.message || 'An error occurred during deletion.',
+                                        'error'
+                                    );
+                                }
+                            },
+                            error: function (xhr, status, error) {
+                                console.error("AJAX Error: ", status, error, xhr.responseText);
+                                // For debugging, you can log the xhr.status and xhr.responseText
+                                // if (xhr.status === 400) { console.error("Possible Anti-Forgery Token issue or Bad Request"); }
+                                Swal.fire(
+                                    'Error!',
+                                    'An unexpected error occurred while communicating with the server. Please check console for details.',
+                                    'error'
+                                );
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+}

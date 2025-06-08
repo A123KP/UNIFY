@@ -1,0 +1,270 @@
+﻿/* General Body and Order Card Styles */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #f8f9fa;
+    color: #212529;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.order-card {
+    background-color: #fff;
+    margin-top:25px;
+    border-radius: 0.75rem;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+    padding: 25px;
+}
+
+.order-header {
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+    .order-header h4 {
+        font-weight: 600;
+        color: #343a40;
+    }
+
+    .order-header .order-date {
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+
+/* Item List Styles */
+.item-list .item {
+    display: flex;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+    .item-list .item:last-child {
+        border-bottom: none;
+    }
+
+.item-details {
+    flex-grow: 1; /* Allow details to take up available space */
+}
+
+    .item-details h6 {
+        font-weight: 500;
+        margin-bottom: 5px;
+    }
+
+    .item-details p {
+        font-size: 0.85rem;
+        color: #6c757d;
+        margin-bottom: 0;
+    }
+
+.item-price {
+    margin-left: auto;
+    text-align: right;
+    font-weight: 500;
+    color: #212529;
+}
+
+/* Delivery Status Tracker */
+.status-tracker {
+    display: flex;
+    justify-content: space-between;
+    margin: 25px 0;
+    padding: 0 10px; /* Provides some padding at the ends of the tracker */
+    position: relative;
+}
+
+.status-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative; /* For the ::after pseudo-element (lines) */
+    flex-grow: 1; /* Each step takes equal width */
+    min-width: 80px; /* Minimum width for each step */
+    z-index: 1; /* Ensure steps (icons and text) are above the lines */
+}
+
+    /* Default style for all icon circles */
+    .status-step .icon-circle {
+        width: 35px;
+        height: 35px;
+        background-color: #e9ecef; /* Default light grey for non-active/non-completed steps */
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 8px;
+        color: #6c757; /* Icon color for default grey background */
+        font-size: 1rem;
+        border: 2px solid #e9ecef; /* Border for default state */
+        box-sizing: border-box; /* Ensures border doesn't add to width/height */
+    }
+
+    /* --- Specific styles for icon circles based on step and state --- */
+
+.badge-pending {
+    background-color: green !important; /* Same as .icon-circle for pending/current */
+    color: #fff !important;
+}
+
+.badge-shipped {
+    background-color: #007bff !important; /* Same as shipped/completed */
+    color: #fff !important;
+}
+
+.badge-delivered {
+    background-color: #ffc107 !important; /* Same as delivered/completed */
+    color: #212529 !important;
+}
+
+.badge-cancelled {
+    background-color: #dc3545 !important; /* Same as cancelled/current */
+    color: #fff !important;
+}
+
+    /* PENDING (1st step) */
+    .status-step:nth-child(1).completed .icon-circle {
+        background-color: #6c757d; /* Grey */
+        border-color: #6c757d;
+        color: white;
+    }
+    /* If Pending can be the 'current' step, you might want a specific style: */
+    .status-step:nth-child(1).current .icon-circle {
+        background-color: green; /* Example: green if current, or your preferred color */
+        border-color: green;
+        color: white;
+    }
+
+    /* SHIPPED (2nd step) */
+    .status-step:nth-child(2).completed .icon-circle {
+        background-color: #007bff; /* Dark Blue */
+        border-color: #007bff;
+        color: white;
+    }
+    /* If Shipped can be the 'current' step: */
+    .status-step:nth-child(2).current .icon-circle {
+        background-color: green; /* Example: green if current */
+        border-color: green;
+        color: white;
+    }
+
+    /* DELIVERED (3rd step) */
+    .status-step:nth-child(3).completed .icon-circle {
+        background-color: #ffc107; /* Yellow for completed state */
+        border-color: #ffc107;
+        color: white;
+    }
+
+    /*.status-step:nth-child(3).current .icon-circle {
+        background-color: green;*/ /* Green for current state (as per image) */
+        /*border-color: green;
+        color: white;
+    }*/
+
+    /* CANCELLED (4th or last step) */
+    /* Default icon style (light grey) applies if not .current */
+    .status-step:nth-child(4).current .icon-circle,
+    .status-step:last-child.current .icon-circle { /* Catches if it's 4th or generically the last */
+        background-color: #dc3545; /* Red for current state */
+        border-color: #dc3545;
+        color: white;
+    }
+
+    /* --- Styles for the connecting lines --- */
+
+    /* Base grey line segment that appears after each step (except the last) */
+    .status-step:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        top: 17.5px; /* (icon-circle height / 2) - (line height / 2) = (35px / 2) - (3px / 2) = 17.5px - 1.5px = 16px. Let's use 17.5px to align with center of icon, then adjust line height */
+        /* Correction: top should be icon-circle height / 2 - line height / 2. If icon is 35px, center is 17.5px. Line is 3px. So top is 17.5 - 1.5 = 16px */
+        /* Or, align top of line with center of icon, then ensure line is thin:
+           top: calc(35px / 2 - 3px / 2);  (Height of icon circle / 2 - Height of line / 2)
+        */
+        top: calc( (35px / 2) - (3px / 2) ); /* Vertically centers the line with the icon circle's equator */
+        left: calc(50% + 35px / 2); /* Start line from the right edge of the icon circle */
+        width: calc(100% - 35px); /* Line spans to the left edge of the next icon circle */
+        height: 3px;
+        background-color: #e9ecef; /* Default line color (light grey) */
+        z-index: -1; /* Place lines behind icon circles */
+    }
+
+    /* Green line for segments connecting completed steps */
+    .status-step.completed:not(:last-child)::after {
+        background-color: #28a745; /* Green for completed lines */
+    }
+
+    /* Ensure line after current step (if not the last completed) is grey */
+    .status-step.current ~ .status-step:not(:last-child)::after {
+        background-color: #e9ecef; /* Following lines are grey */
+    }
+
+    .status-step.current:not(:last-child)::after {
+        background-color: #e9ecef; /* Line immediately after current step is grey */
+    }
+
+
+    /* --- Styles for status labels --- */
+    .status-step .status-label {
+        font-size: 0.75rem;
+        color: #6c757d; /* Default label color */
+        font-weight: 500;
+        margin-top: 8px; /* Spacing between icon and label */
+    }
+
+    /* Darker label text for steps that are 'completed' or 'current' */
+    .status-step.completed .status-label,
+    .status-step.current .status-label {
+        color: #212529;
+    }
+
+/* Order Summary Styles */
+.order-summary {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e9ecef;
+}
+
+    .order-summary p {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+        font-size: 0.95rem;
+    }
+
+    .order-summary .total {
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: #dc3545;
+    }
+
+/* Ratings Section Styles */
+.ratings-section {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #e9ecef;
+}
+
+    .ratings-section h6 {
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+.star-rating .fa-star {
+    font-size: 1.5rem;
+    color: #e9ecef;
+    cursor: pointer;
+    margin-right: 3px;
+}
+
+    .star-rating .fa-star.selected,
+    .star-rating .fa-star:hover,
+    .star-rating:not(.disabled) .fa-star:hover ~ .fa-star {
+        color: #ffc107;
+    }
+
+.star-rating.disabled .fa-star {
+    cursor: not-allowed;
+}

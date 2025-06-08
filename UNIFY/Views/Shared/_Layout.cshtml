@@ -1,0 +1,198 @@
+﻿@{
+    var userRole = Context.Session.GetString("UserRole"); //use service function 
+    var isCustomer = userRole == "CUSTOMER";
+    var isAdmin = userRole == "ADMIN";
+    var isPublic = string.IsNullOrEmpty(userRole); //will use this method instead of writing if ==customer again later
+
+    string searchController = isAdmin ? "Product" : "Home";
+    string searchAction = isAdmin ? "Product" : "Search";
+    
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - UNIFY</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/UNIFY.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/Layout/layout.css"asp-append-version="true" />
+    @* to load my custom style*@
+    @RenderSection("Styles", required: false) 
+</head>
+<body>
+    <header>
+        <div class="bg-dark text-white text-center py-1 align-item-center">
+            <div class="container d-flex justify-content-center">
+                <span>Summer Sale For Iphone 16 Pro Models And Free Express Delivery – OFF 50%! <a href="#" class="text-white text-decoration-underline">ShopNow</a></span>
+                
+            </div>
+        </div>
+        
+        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+            <div class="container">
+
+                <a class="navbar-brand fw-bold" href="#">
+                    <i class="bi bi-bag-check-fill me-2"></i>UNIFY
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav mx-auto text-center">
+                        
+
+                        @if (isAdmin)
+                        {
+                            <a class="nav-link" asp-controller="Product" asp-action="Product">Home</a>
+                            <a class="nav-link" asp-controller="Order" asp-action="AdminOrder">Order Details</a>
+                            <a class="nav-link" asp-controller="Product" asp-action="AddProduct">Product Catalog</a>
+
+                        }
+                        @if(isCustomer)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+                        }
+
+                       
+
+                        @if (isPublic)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+                            <li class="nav-item"><a class="nav-link" asp-controller="UPM" asp-action="Register">Sign Up</a></li>
+                        }
+                    </ul>
+
+                    @if (isCustomer || isAdmin)
+                    {
+                        <!-- Responsive right content -->
+                        <div class="d-flex align-items-center flex-wrap gap-3 mt-2 mt-lg-0">
+
+                            <!-- Search Bar -->
+                            <form asp-controller="@searchController" asp-action="@searchAction" method="get" class="d-flex" id="loggedInSearchForm">
+                                <input type="text" class="search-input" placeholder="What are you looking for?" name="searchTerm" id="loggedInSearchInput">
+                                <button type="submit" class="search-btn">
+                                    <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" width="16" height="16">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m21 21-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z"></path>
+                                    </svg>
+                                </button>
+                            </form>
+
+
+                            @if (isCustomer)
+                            {
+
+                                <!-- Cart icon -->                                
+                                <a asp-controller="Cart" asp-action="Cart" class="cart-container text-dark">
+                                    <i class="bi bi-cart3 fs-5" id="cart-item-count-display"></i>
+                                </a>
+                            }
+
+                            <!-- Profile dropdown -->
+                            <div class="profile-wrapper dropdown">
+                                <button class="profile-btn" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-person-fill"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end profile-dropdown" aria-labelledby="profileDropdown">
+                                    <li>
+                                        <a class="dropdown-item" asp-controller="UPM" asp-action="Profile">
+                                            <i class="bi bi-person-circle"></i>
+                                            <span>Manage My Account</span>
+                                        </a>
+                                    </li>
+
+                                    @if (isCustomer)
+                                    {
+                                        <li>
+                                            <a class="dropdown-item" asp-controller="Order" asp-action="MyOrder">
+                                                <i class="bi bi-bag"></i>
+                                                <span>My Orders</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="@Url.Action("MyCancellations", "Order")">
+                                                <i class="bi bi-x-circle"></i>
+                                                <span>My Cancellations</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="@Url.Action("MyReviews", "Review")">
+                                                <i class="bi bi-star"></i>
+                                                <span>My Reviews</span>
+                                            </a>
+                                        </li>
+                                    }
+
+                                    <li>
+                                        <a asp-controller="UPM" asp-action="Logout" class="dropdown-item">
+                                            <i class="bi bi-box-arrow-right"></i>
+                                            <span>Logout</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </nav>
+
+    </header>   
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <footer class="bg-dark text-white pt-4 pb-3 mt-5 footer-custom">
+        <div class="container">
+            <div class="row text-center text-md-start">
+                <div class="col-md-3 mb-3">
+                    <h5 class="fw-bold">UNIFY</h5>
+                    <p>Get 10% off your first order</p>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <h6 class="fw-bold">Support</h6>
+                    <p>Sector 12, Karapakkam<br />Chennai, 33</p>
+                    <p>UNIFY@gmail.com<br />+88015-88888-9999</p>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <h6 class="fw-bold">Quick Link</h6>
+                    <p>Privacy Policy<br />Terms Of Use<br />FAQ<br />Contact</p>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <h6 class="fw-bold">Connect with us :</h6>
+                    <div class="footer-social-icons">
+                        <a href="#" class="text-white me-3" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-white me-3" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="text-white me-3" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="text-white" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center small mt-3">&copy; Copyright UNIFY 2022. All right reserved</div>
+    </footer>
+    
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,75 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Register";
+}
+@section Styles {
+    <link href="~/css/UPM/register.css" rel="stylesheet" />
+}
+
+
+<div class="container-fluid register-container px-0">
+    <div class="row g-0 min-vh-100 align-items-center">
+        <!-- Left: Image -->
+        <div class="col-md-6 p-0">
+            <div class="register-image-wrapper">
+                <img src="/images/UPM/bags.png" class="register-image" alt="Shopping bags" />
+            </div>
+        </div>
+
+        <!-- Right: Form -->
+        <div class="col-md-6 d-flex align-items-center justify-content-center">
+            <div class="register-form">
+                <h3 class="fw-bold">Create an account</h3>
+                <p class="text-muted mb-4">Enter your details below</p>
+                <form method="post" asp-action="RegisterUser" id="registerForm">
+                    <div class="mb-3">
+                        <input type="text" class="form-control custom-input" id="Username" name="Username" placeholder="Username" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="email" class="form-control custom-input" id="Email" name="Email" placeholder="Email" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="password" class="form-control custom-input" id="Password" name="Password" placeholder="Password" required>
+                    </div>
+                    <div class="mb-4">
+                        <input type="password" class="form-control custom-input" id="ConfirmPassword" name="ConfirmPassword" placeholder="Confirm Password" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-danger w-100 btn-register">Create Account</button>
+                    <p class="text-center mt-3 small">
+                        Already have an account?
+                        <a asp-controller="UPM" asp-action="Login" class="ms-1">Log in</a>
+                    </p>
+                </form>                                                          
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Basic client-side validation
+        $('#registerForm').on('submit', function () {
+            const password = $('#Password').val();
+            const confirmPassword = $('#ConfirmPassword').val();
+            const email = $('#Email').val();
+            const name = $('#Username').val();
+
+            if (password.length < 6) {
+                alert('Password must be at least 6 characters long.');
+                return false;
+            }
+            if (!name || !email || !password) {
+                alert('All fields are required.');
+                return false;
+            }
+
+            if (password !== confirmPassword) {
+            alert('Passwords do not match.');
+            return false;
+            }
+
+            return true;
+        });
+    </script>
+}

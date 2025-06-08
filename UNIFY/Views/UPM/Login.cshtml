@@ -1,0 +1,62 @@
+﻿@section Styles {
+    <link href="~/css/UPM/login.css" rel="stylesheet" />
+}
+
+<div class="container-fluid login-container px-0">
+    <div class="row g-0 min-vh-100 align-items-center">
+        <!-- Left: Image -->
+        <div class="col-md-6 p-0">
+            <div class="login-image-wrapper">
+                <img src="/images/UPM/bags.png" class="login-image" alt="Shopping bags" />
+            </div>
+        </div>
+        <!-- Right: Form -->
+        <div class="col-md-6 d-flex align-items-center justify-content-center">
+            <div class="login-form">
+                <h3 class="fw-bold">Log in to UNIFY</h3>
+                <p class="text-muted mb-4">Enter your details below</p>
+                @* ✅ Show error/success messages *@
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+                }
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+                }
+
+                <form method="post" asp-action="LoginUser" id="loginForm">
+                    <div class="mb-3">
+                        <input type="text" class="form-control login-input" id="LoginEmail" name="LoginEmail" placeholder="Email or UserName" required>
+                    </div>
+                    <div class="mb-4">
+                        <input type="password" class="form-control login-input" id="LoginPassword" name="LoginPassword" placeholder="Password" required>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <button type="submit" class="btn btn-danger btn-login">Log In</button>
+                        <a href="/UPM/ForgotPassword" class="text-danger small">Forget Password?</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $('#loginForm').on('submit', function () {
+            const emailOrUsername = $('#LoginEmail').val().trim(); /* to ensure user dnt enter spaces in email or username*/
+            const password = $('#LoginPassword').val();
+
+            if (!emailOrUsername || !password) {
+                alert('Both fields are required.');
+                return false;
+            }
+            if (password.length < 6) {
+                alert('Password must be at least 6 characters long.');
+                return false;
+            }
+            return true;
+        });
+    </script>
+}

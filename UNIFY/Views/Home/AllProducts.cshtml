@@ -1,0 +1,129 @@
+﻿@using UNIFY.Models
+@{
+    ViewData["Title"] = "All Products";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Ensure this matches your layout file
+    var allProducts = ViewBag.AllProducts as List<Product>;
+}
+
+<link href="~/css/home/styles.css" rel="stylesheet" /> @* Link to your existing styles or a new one if needed *@
+
+<main class="container my-4">
+    <h2 class="section-title text-center mb-4">All Products</h2>
+
+    @if (allProducts != null && allProducts.Any())
+    {
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+            @foreach (var product in allProducts)
+            {
+                <div class="col">
+                    <div class="product-card h-100">
+                        <a asp-controller="Home" asp-action="Details" asp-route-id="@product.ProductId" class="text-decoration-none text-dark d-block h-100">
+                            @{
+                                string imagePath = $"/images/ProductCatalog/Product{product.ProductId}.jpg";
+                                string fallbackImagePath = "/images/placeholder.png";
+                            }
+                            <img src="@imagePath" alt="@product.Name" class="product-image" onerror="this.onerror=null;this.src='@fallbackImagePath';">
+                            <div class="product-info">
+                                <p class="product-name">@product.Name</p>
+                                <p class="product-description">@product.Description</p>
+                                <p class="product-price">₹@product.Price.ToString("N2")</p>
+                                <button type="button" class="add-to-cart-hover add-to-cart-all-products-btn"
+                                        data-product-id="@product.ProductId"
+                                        data-product-name="@product.Name"
+                                        data-product-price="@product.Price"
+                                        data-product-image="@imagePath">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <p class="text-center">No products available yet.</p>
+    }
+</main>
+
+@section Scripts {
+    <script>
+        // Shared Cart Logic (copy from Index.cshtml if not already globalized)
+        const CART_KEY_SHARED = "userCart";
+        const MAX_QUANTITY_PER_ITEM_SHARED = 5;
+
+        function getClientCartShared() {
+            return JSON.parse(localStorage.getItem(CART_KEY_SHARED) || "[]");
+        }
+
+        function setClientCartShared(cart) {
+            localStorage.setItem(CART_KEY_SHARED, JSON.stringify(cart));
+            updateCartCountInHeaderShared();
+        }
+
+        function addProductToCartShared(productId, name, price, image) {
+            let cart = getClientCartShared();
+            const numProductId = parseInt(productId);
+            const floatPrice = parseFloat(price);
+
+            const existingItemIndex = cart.findIndex(item => parseInt(item.productId) === numProductId);
+
+            if (existingItemIndex > -1) {
+                if (cart[existingItemIndex].quantity < MAX_QUANTITY_PER_ITEM_SHARED) {
+                    cart[existingItemIndex].quantity += 1;
+                } else {
+                    showCartToast(`Max ${MAX_QUANTITY_PER_ITEM_SHARED} units for "${name}".`, 'warning');
+                    return;
+                }
+            } else {
+                cart.push({ productId: numProductId, name: name, price: floatPrice, quantity: 1, image: image });
+            }
+            setClientCartShared(cart);
+            showCartToast(`"${name}" added to cart!`);
+        }
+
+        function updateCartCountInHeaderShared() {
+            const cart = getClientCartShared();
+            let totalItems = 0;
+            cart.forEach(item => {
+                totalItems += item.quantity;
+            });
+            $('#cart-item-count-display').text(totalItems);
+        }
+
+        function showCartToast(message, type = 'success') {
+            let toastElement = $('.cart-toast');
+            if (!toastElement.length) {
+                toastElement = $('<div class="cart-toast"></div>').appendTo('body');
+                if (!$('style#cart-toast-style').length) {
+                    $('<style id="cart-toast-style">' +
+                        '.cart-toast { position: fixed; bottom: 20px; right: 20px; padding: 15px; border-radius: 5px; z-index: 1050; color: white; font-size: 1rem; box-shadow: 0 0 10px rgba(0,0,0,0.2); display: none; }' +
+                        '.cart-toast.success { background-color: #000000; }' +
+                        '.cart-toast.warning { background-color: #ffc107; color: #333 }' +
+                        '</style>').appendTo('head');
+                }
+            }
+            toastElement.text(message).removeClass('success warning').addClass(type);
+            toastElement.stop(true, true).fadeIn(400).delay(2500).fadeOut(400);
+        }
+
+        $(document).ready(function () {
+            // Add to Cart for AllProducts.cshtml
+            $('.row-cols-md-3').on('click', '.add-to-cart-all-products-btn', function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+
+                const $button = $(this);
+                const productId = $button.data('product-id');
+                const productName = $button.data('product-name');
+                const productPrice = $button.data('product-price');
+                const productImage = $button.data('product-image');
+
+                addProductToCartShared(productId, productName, productPrice, productImage);
+            });
+
+            updateCartCountInHeaderShared(); // Initial cart count update
+        });
+    </script>
+}
