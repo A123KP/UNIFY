@@ -48,7 +48,7 @@ namespace UNIFY.Controllers
             return View("Search", products);
         }
 
-        [AuthorizeRole("CUSTOMER")] // Only allow CUSTOMER role to access this action
+       
         [HttpGet]
         public async Task<IActionResult> ByCategory(int categoryId)
         {
